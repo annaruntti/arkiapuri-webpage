@@ -78,11 +78,3 @@ The website can be deployed to Vercel:
 2. Import the project to Vercel
 3. Set up the environment variables in Vercel
 4. Deploy
-
-## License
-
-[Your chosen license]
-
-## Contact
-
-[Your contact information]
