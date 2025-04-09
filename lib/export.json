@@ -62,8 +62,8 @@
           "omitted": false
         },
         {
-          "id": "picture",
-          "name": "Picture",
+          "id": "profilePicture",
+          "name": "Profile Picture",
           "type": "Link",
           "localized": false,
           "required": true,
@@ -325,7 +325,7 @@
           "widgetNamespace": "builtin"
         },
         {
-          "fieldId": "picture",
+          "fieldId": "profilePicture",
           "widgetId": "assetLinkEditor",
           "widgetNamespace": "builtin"
         }

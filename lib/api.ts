@@ -6,45 +6,57 @@ const POST_GRAPHQL_FIELDS = `
   }
   date
   author {
-    name
-    picture {
-      url
+    ... on Author {
+      name
+      profilePicture {
+        url
+      }
     }
   }
   excerpt
   content {
     json
-    links {
-      assets {
-        block {
-          sys {
-            id
-          }
-          url
-          description
-        }
-      }
-    }
   }
 `;
 
 async function fetchGraphQL(query: string, preview = false): Promise<any> {
-  return fetch(
-    `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${
-          preview
-            ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
-            : process.env.CONTENTFUL_ACCESS_TOKEN
-        }`,
-      },
-      body: JSON.stringify({ query }),
-      next: { tags: ["posts"] },
-    },
-  ).then((response) => response.json());
+  try {
+    const response = await fetch(
+      `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${
+            preview
+              ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
+              : process.env.CONTENTFUL_ACCESS_TOKEN
+          }`,
+        },
+        body: JSON.stringify({ query }),
+        next: { tags: ["posts"] },
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Contentful API error:", {
+        status: response.status,
+        statusText: response.statusText,
+        body: errorText,
+      });
+      throw new Error(
+        `Contentful API error: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const data = await response.json();
+    console.log("Contentful API response:", data);
+    return data;
+  } catch (error) {
+    console.error("Error in fetchGraphQL:", error);
+    throw error;
+  }
 }
 
 function extractPost(fetchResponse: any): any {
@@ -64,54 +76,60 @@ export async function getPreviewPostBySlug(slug: string | null): Promise<any> {
         }
       }
     }`,
-    true,
+    true
   );
   return extractPost(entry);
 }
 
 export async function getAllPosts(isDraftMode: boolean): Promise<any[]> {
-  const entries = await fetchGraphQL(
-    `query {
-      postCollection(where: { slug_exists: true }, order: date_DESC, preview: ${
-        isDraftMode ? "true" : "false"
-      }) {
-        items {
-          ${POST_GRAPHQL_FIELDS}
+  try {
+    const entries = await fetchGraphQL(
+      `query {
+        postCollection(where: { slug_exists: true }, order: date_DESC, preview: ${
+          isDraftMode ? "true" : "false"
+        }) {
+          items {
+            ${POST_GRAPHQL_FIELDS}
+          }
         }
-      }
-    }`,
-    isDraftMode,
-  );
-  return extractPostEntries(entries);
+      }`,
+      isDraftMode
+    );
+    console.log("Contentful response:", entries);
+    return extractPostEntries(entries) || [];
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return [];
+  }
 }
 
 export async function getPostAndMorePosts(
   slug: string,
-  preview: boolean,
+  preview: boolean
 ): Promise<any> {
   const entry = await fetchGraphQL(
     `query {
       postCollection(where: { slug: "${slug}" }, preview: ${
-        preview ? "true" : "false"
-      }, limit: 1) {
+      preview ? "true" : "false"
+    }, limit: 1) {
         items {
           ${POST_GRAPHQL_FIELDS}
         }
       }
     }`,
-    preview,
+    preview
   );
   const entries = await fetchGraphQL(
     `query {
       postCollection(where: { slug_not_in: "${slug}" }, order: date_DESC, preview: ${
-        preview ? "true" : "false"
-      }, limit: 2) {
+      preview ? "true" : "false"
+    }, limit: 2) {
         items {
           ${POST_GRAPHQL_FIELDS}
         }
       }
     }`,
-    preview,
+    preview
   );
   return {
     post: extractPost(entry),

@@ -22,7 +22,7 @@ export default async function PostPage({
 }: {
   params: { slug: string };
 }) {
-  const { isEnabled } = draftMode();
+  const { isEnabled } = await draftMode();
   const { post, morePosts } = await getPostAndMorePosts(params.slug, isEnabled);
 
   return (
@@ -39,7 +39,10 @@ export default async function PostPage({
         </h1>
         <div className="hidden md:mb-12 md:block">
           {post.author && (
-            <Avatar name={post.author.name} picture={post.author.picture} />
+            <Avatar
+              name={post.author.name}
+              profilePicture={post.author.profilePicture}
+            />
           )}
         </div>
         <div className="mb-8 sm:mx-0 md:mb-16">
@@ -48,7 +51,10 @@ export default async function PostPage({
         <div className="mx-auto max-w-2xl">
           <div className="mb-6 block md:hidden">
             {post.author && (
-              <Avatar name={post.author.name} picture={post.author.picture} />
+              <Avatar
+                name={post.author.name}
+                profilePicture={post.author.profilePicture}
+              />
             )}
           </div>
           <div className="mb-6 text-lg">
