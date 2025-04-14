@@ -28,7 +28,7 @@ function RichTextAsset({ id, assets }: { id: string; assets: Asset[] }) {
 
   return (
     <div className="relative w-full my-8">
-      <div className="relative aspect-[4/3] md:aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+      <div className="relative aspect-[3/4] md:aspect-[9/16] bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
         <Image
           src={asset.url}
           alt={asset.description || ""}

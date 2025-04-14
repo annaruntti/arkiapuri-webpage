@@ -88,7 +88,7 @@ export default async function Page() {
           excerpt={heroPost.excerpt}
         />
       )}
-      <MoreStories morePosts={morePosts} />
+      {morePosts.length > 0 && <MoreStories morePosts={morePosts} />}
     </div>
   );
 }
