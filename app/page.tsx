@@ -5,21 +5,20 @@ import Date from "./date";
 import CoverImage from "./cover-image";
 import Avatar from "./avatar";
 import MoreStories from "./more-stories";
+import { Markdown } from "@/lib/markdown";
 
+import { getAllPages } from "@/lib/api";
 import { getAllPosts } from "@/lib/api";
 
-function Intro() {
+function Intro({ frontPage }: { frontPage: any }) {
   return (
     <section className="flex-col md:flex-row flex items-center md:justify-between mt-16 mb-16 md:mb-12">
       <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight md:pr-8">
-        Arkiapuri
+        {frontPage?.title}
       </h1>
-      <h2 className="text-center md:text-left text-lg mt-5 md:pl-8">
-        Tervetuloa Tutustumaan Arkiapuriin! Arkiapuri on työkalu, joka auttaa
-        sinua selviytymään arjen haasteista helpolla ja mukavavalla tavalla.
-        Arkiapurin voit ladata puhelimeesi sovelluskaupasta tai käyttää sitä
-        puhelimesi, tablettisi tai tietokoneesi selaimeessa.
-      </h2>
+      <div className="text-center md:text-left text-lg mt-5 md:pl-8">
+        <Markdown content={frontPage?.content} />
+      </div>
     </section>
   );
 }
@@ -68,13 +67,17 @@ function HeroPost({
 
 export default async function Page() {
   const { isEnabled } = await draftMode();
+  const allPages = (await getAllPages(isEnabled)) || [];
   const allPosts = (await getAllPosts(isEnabled)) || [];
+  const frontPage = allPages.find(
+    (page: { slug: string }) => page.slug === "etusivu"
+  );
   const heroPost = allPosts[0];
   const morePosts = allPosts.slice(1);
 
   return (
     <div className="container mx-auto px-5">
-      <Intro />
+      <Intro frontPage={frontPage} />
       {heroPost && (
         <HeroPost
           title={heroPost.title}

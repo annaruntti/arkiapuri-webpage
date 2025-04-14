@@ -16,6 +16,17 @@ const POST_GRAPHQL_FIELDS = `
   excerpt
   content {
     json
+    links {
+      assets {
+        block {
+          sys {
+            id
+          }
+          url
+          description
+        }
+      }
+    }
   }
 `;
 
@@ -135,4 +146,35 @@ export async function getPostAndMorePosts(
     post: extractPost(entry),
     morePosts: extractPostEntries(entries),
   };
+}
+
+export async function getAllPages(isDraftMode: boolean): Promise<any[]> {
+  const entries = await fetchGraphQL(
+    `query {
+      pageCollection(where: { slug_exists: true }, preview: ${
+        isDraftMode ? "true" : "false"
+      }) {
+        items {
+          slug
+          title
+          content {
+            json
+            links {
+              assets {
+                block {
+                  sys {
+                    id
+                  }
+                  url
+                  description
+                }
+              }
+            }
+          }
+        }
+      }
+    }`,
+    isDraftMode
+  );
+  return entries?.data?.pageCollection?.items || [];
 }
