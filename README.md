@@ -9,6 +9,8 @@ This is the official website for Arkiapuri, a tool that helps you manage everyda
 - Content management through Contentful
 - Draft mode for content preview
 - On-demand revalidation for instant content updates
+- Optimized GraphQL queries for efficient content loading
+- Responsive image handling with Next.js Image component
 
 ## Getting Started
 
@@ -50,11 +52,13 @@ CONTENTFUL_REVALIDATE_SECRET=your_revalidate_secret
 pnpm run dev
 ```
 
-The site will be available at [http://localhost:3000](http://localhost:3000).
+The site will be available at [http://localhost:3001](http://localhost:3001).
 
 ## Content Management
 
 This project uses Contentful as a headless CMS. The content model includes:
+
+### Content Types
 
 - **Author**: Content type for blog post authors
 
@@ -62,6 +66,7 @@ This project uses Contentful as a headless CMS. The content model includes:
   - profilePicture (Media)
 
 - **Post**: Content type for blog posts
+
   - title (Text)
   - content (Rich Text)
   - excerpt (Text)
@@ -70,11 +75,35 @@ This project uses Contentful as a headless CMS. The content model includes:
   - slug (Text)
   - author (Reference to Author)
 
-## Deployment
+- **Page**: Content type for static pages
+  - title (Text)
+  - introduction (Long Text)
+  - content (Rich Text)
+  - slug (Text)
+  - coverImage (Media)
+  - heroImage
 
-The website can be deployed to Vercel:
+### GraphQL Query Optimization
 
-1. Push your code to GitHub
-2. Import the project to Vercel
-3. Set up the environment variables in Vercel
-4. Deploy
+The project implements optimized GraphQL queries to handle Contentful's complexity limits:
+
+- Queries are limited to 5 items per collection to stay within Contentful's complexity limits
+- Essential fields are selected to minimize query complexity
+- Asset fields are included for proper image handling
+- Pagination is implemented for larger content sets
+
+## Development Notes
+
+### Image Handling
+
+- Images are optimized using Next.js Image component
+- Responsive image sizing with aspect ratio containers
+- Proper handling of both horizontal and vertical images
+- Background color fill for image containers
+
+### Contentful Integration
+
+- GraphQL API for efficient data fetching
+- Draft mode support for content preview
+- On-demand revalidation for instant updates
+- Error handling for API responses
