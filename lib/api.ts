@@ -98,7 +98,7 @@ export async function getAllPosts(isDraftMode: boolean): Promise<any[]> {
       `query {
         postCollection(where: { slug_exists: true }, order: date_DESC, preview: ${
           isDraftMode ? "true" : "false"
-        }) {
+        }, limit: 5) {
           items {
             ${POST_GRAPHQL_FIELDS}
           }
@@ -153,7 +153,7 @@ export async function getAllPages(isDraftMode: boolean): Promise<any[]> {
     `query {
       pageCollection(where: { slug_exists: true }, preview: ${
         isDraftMode ? "true" : "false"
-      }) {
+      }, limit: 5) {
         items {
           slug
           title
