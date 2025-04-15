@@ -19,14 +19,18 @@ export async function generateStaticParams() {
   }));
 }
 
-type Props = {
-  params: { slug: string };
+interface PageProps {
+  params: Promise<{ slug: string }>;
   searchParams: { [key: string]: string | string[] | undefined };
-};
+}
 
-export default async function PostPage({ params }: Props) {
+export default async function PostPage({ params }: PageProps) {
+  const resolvedParams = await params;
   const { isEnabled } = await draftMode();
-  const { post, morePosts } = await getPostAndMorePosts(params.slug, isEnabled);
+  const { post, morePosts } = await getPostAndMorePosts(
+    resolvedParams.slug,
+    isEnabled
+  );
 
   return (
     <div className="container mx-auto px-5">
