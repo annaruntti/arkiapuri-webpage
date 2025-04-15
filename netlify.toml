@@ -1,10 +1,10 @@
 [build]
   base = "."
-  command = "pnpm install && pnpm run build"
+  command = "npm install -g pnpm && pnpm install --verbose && pnpm run build"
   publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "22.13.1"
   NEXT_PUBLIC_CONTENTFUL_SPACE_ID = "your_space_id"
   NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN = "your_access_token"
   NEXT_PUBLIC_CONTENTFUL_PREVIEW_ACCESS_TOKEN = "your_preview_token"
