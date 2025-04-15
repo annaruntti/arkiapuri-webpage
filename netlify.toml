@@ -1,6 +1,6 @@
 [build]
   base = "."
-  command = "npm install -g pnpm && pnpm install --verbose && pnpm run build"
+  command = "npm install && npm run build"
   publish = ".next"
 
 [build.environment]
@@ -15,4 +15,4 @@
   package = "@netlify/plugin-nextjs"
 
 [functions]
-  included_files = ["node_modules/.pnpm/**/*"] 
+  included_files = ["node_modules/**/*"] 
