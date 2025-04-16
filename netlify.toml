@@ -10,4 +10,10 @@
   package = "@netlify/plugin-nextjs"
 
 [functions]
-  included_files = ["node_modules/**/*"] 
+  included_files = [
+    "node_modules/@netlify/plugin-nextjs/**/*",
+    "node_modules/next/**/*",
+    "node_modules/react/**/*",
+    "node_modules/react-dom/**/*",
+    "node_modules/contentful/**/*"
+  ] 
