@@ -11,13 +11,25 @@ import { getAllPages } from "@/lib/api";
 import { getAllPosts } from "@/lib/api";
 
 function Intro({ frontPage }: { frontPage: any }) {
+  console.log(
+    "Intro component - frontPage:",
+    JSON.stringify(frontPage, null, 2)
+  );
+
+  if (!frontPage?.content) {
+    return null;
+  }
+
   return (
     <section className="flex-col md:flex-row flex items-center md:justify-between mt-16 mb-16 md:mb-12">
       <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight md:pr-8">
         {frontPage?.title}
       </h1>
       <div className="text-center md:text-left text-lg mt-5 md:pl-8">
-        <Markdown content={frontPage?.content} />
+        <Markdown
+          content={frontPage.content.json}
+          assets={frontPage.content.links?.assets?.block || []}
+        />
       </div>
     </section>
   );
@@ -27,14 +39,14 @@ function HeroPost({
   title,
   coverImage,
   date,
-  excerpt,
+  excerpt = "",
   author,
   slug,
 }: {
   title: string;
   coverImage: any;
   date: string;
-  excerpt: string;
+  excerpt?: string;
   author: any;
   slug: string;
 }) {
@@ -74,6 +86,15 @@ export default async function Page() {
   );
   const heroPost = allPosts[0];
   const morePosts = allPosts.slice(1);
+
+  console.log(
+    "Front page content:",
+    JSON.stringify(frontPage?.content, null, 2)
+  );
+  console.log(
+    "Front page assets:",
+    JSON.stringify(frontPage?.content?.links?.assets?.block, null, 2)
+  );
 
   return (
     <div className="container mx-auto px-5">

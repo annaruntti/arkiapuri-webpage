@@ -32,6 +32,20 @@ export default async function PostPage({ params }: PageProps) {
     isEnabled
   );
 
+  if (!post) {
+    return (
+      <div className="container mx-auto px-5">
+        <h2 className="mb-20 mt-8 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
+          <Link href="/" className="hover:underline">
+            Arkiapuri
+          </Link>
+          .
+        </h2>
+        <p>Ei vielä tätä postauksia</p>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-5">
       <h2 className="mb-20 mt-8 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
@@ -73,7 +87,10 @@ export default async function PostPage({ params }: PageProps) {
 
         <div className="mx-auto max-w-2xl">
           <div className="prose">
-            <Markdown content={post.content} />
+            <Markdown
+              content={post.content.json}
+              assets={post.content.links.assets.block}
+            />
           </div>
         </div>
       </article>

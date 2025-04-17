@@ -1,3 +1,5 @@
+import { ContentfulPost, ContentfulPage, ContentfulResponse } from "./types";
+
 const POST_GRAPHQL_FIELDS = `
   slug
   title
@@ -30,7 +32,10 @@ const POST_GRAPHQL_FIELDS = `
   }
 `;
 
-async function fetchGraphQL(query: string, preview = false): Promise<any> {
+async function fetchGraphQL<T>(
+  query: string,
+  preview = false
+): Promise<ContentfulResponse<T>> {
   try {
     const response = await fetch(
       `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
@@ -70,16 +75,22 @@ async function fetchGraphQL(query: string, preview = false): Promise<any> {
   }
 }
 
-function extractPost(fetchResponse: any): any {
-  return fetchResponse?.data?.postCollection?.items?.[0];
+function extractPost(
+  fetchResponse: ContentfulResponse<ContentfulPost>
+): ContentfulPost | null {
+  return fetchResponse?.data?.postCollection?.items?.[0] || null;
 }
 
-function extractPostEntries(fetchResponse: any): any[] {
-  return fetchResponse?.data?.postCollection?.items;
+function extractPostEntries(
+  fetchResponse: ContentfulResponse<ContentfulPost>
+): ContentfulPost[] {
+  return fetchResponse?.data?.postCollection?.items || [];
 }
 
-export async function getPreviewPostBySlug(slug: string | null): Promise<any> {
-  const entry = await fetchGraphQL(
+export async function getPreviewPostBySlug(
+  slug: string | null
+): Promise<ContentfulPost | null> {
+  const entry = await fetchGraphQL<ContentfulPost>(
     `query {
       postCollection(where: { slug: "${slug}" }, preview: true, limit: 1) {
         items {
@@ -92,9 +103,11 @@ export async function getPreviewPostBySlug(slug: string | null): Promise<any> {
   return extractPost(entry);
 }
 
-export async function getAllPosts(isDraftMode: boolean): Promise<any[]> {
+export async function getAllPosts(
+  isDraftMode: boolean
+): Promise<ContentfulPost[]> {
   try {
-    const entries = await fetchGraphQL(
+    const entries = await fetchGraphQL<ContentfulPost>(
       `query {
         postCollection(where: { slug_exists: true }, order: date_DESC, preview: ${
           isDraftMode ? "true" : "false"
@@ -107,7 +120,7 @@ export async function getAllPosts(isDraftMode: boolean): Promise<any[]> {
       isDraftMode
     );
     console.log("Contentful response:", entries);
-    return extractPostEntries(entries) || [];
+    return extractPostEntries(entries);
   } catch (error) {
     console.error("Error fetching posts:", error);
     return [];
@@ -117,8 +130,8 @@ export async function getAllPosts(isDraftMode: boolean): Promise<any[]> {
 export async function getPostAndMorePosts(
   slug: string,
   preview: boolean
-): Promise<any> {
-  const entry = await fetchGraphQL(
+): Promise<{ post: ContentfulPost | null; morePosts: ContentfulPost[] }> {
+  const entry = await fetchGraphQL<ContentfulPost>(
     `query {
       postCollection(where: { slug: "${slug}" }, preview: ${
       preview ? "true" : "false"
@@ -130,7 +143,7 @@ export async function getPostAndMorePosts(
     }`,
     preview
   );
-  const entries = await fetchGraphQL(
+  const entries = await fetchGraphQL<ContentfulPost>(
     `query {
       postCollection(where: { slug_not_in: "${slug}" }, order: date_DESC, preview: ${
       preview ? "true" : "false"
@@ -148,8 +161,10 @@ export async function getPostAndMorePosts(
   };
 }
 
-export async function getAllPages(isDraftMode: boolean): Promise<any[]> {
-  const entries = await fetchGraphQL(
+export async function getAllPages(
+  isDraftMode: boolean
+): Promise<ContentfulPage[]> {
+  const entries = await fetchGraphQL<ContentfulPage>(
     `query {
       pageCollection(where: { slug_exists: true }, preview: ${
         isDraftMode ? "true" : "false"

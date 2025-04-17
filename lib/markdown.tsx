@@ -1,26 +1,25 @@
+import {
+  BLOCKS,
+  INLINES,
+  Document,
+  Block,
+  Inline,
+  Node,
+} from "@contentful/rich-text-types";
+import {
+  documentToReactComponents,
+  NodeRenderer,
+} from "@contentful/rich-text-react-renderer";
 import Image from "next/image";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { BLOCKS, INLINES } from "@contentful/rich-text-types";
+import { ContentfulAsset } from "./types";
 
-interface Asset {
-  sys: {
-    id: string;
-  };
-  url: string;
-  description: string;
+interface RichTextAssetProps {
+  id: string;
+  assets: ContentfulAsset[];
 }
 
-interface Content {
-  json: any;
-  links: {
-    assets: {
-      block: Asset[];
-    };
-  };
-}
-
-function RichTextAsset({ id, assets }: { id: string; assets: Asset[] }) {
-  const asset = assets.find((asset) => asset.sys.id === id);
+function RichTextAsset({ id, assets }: RichTextAssetProps) {
+  const asset = assets?.find((asset) => asset.sys.id === id);
 
   if (!asset?.url) {
     return null;
@@ -44,50 +43,58 @@ function RichTextAsset({ id, assets }: { id: string; assets: Asset[] }) {
   );
 }
 
-export function Markdown({ content }: { content: Content }) {
-  return documentToReactComponents(content.json, {
+interface MarkdownProps {
+  content: Document;
+  assets?: ContentfulAsset[];
+}
+
+export function Markdown({ content, assets = [] }: MarkdownProps) {
+  const options = {
     renderNode: {
-      [BLOCKS.PARAGRAPH]: (node, children) => (
-        <p className="mb-4">{children}</p>
-      ),
-      [BLOCKS.HEADING_1]: (node, children) => (
-        <h1 className="text-4xl font-bold mb-4">{children}</h1>
-      ),
-      [BLOCKS.HEADING_2]: (node, children) => (
-        <h2 className="text-3xl font-bold mb-4">{children}</h2>
-      ),
-      [BLOCKS.HEADING_3]: (node, children) => (
-        <h3 className="text-2xl font-bold mb-4">{children}</h3>
-      ),
-      [BLOCKS.UL_LIST]: (node, children) => (
-        <ul className="list-disc pl-4 mb-4">{children}</ul>
-      ),
-      [BLOCKS.OL_LIST]: (node, children) => (
-        <ol className="list-decimal pl-4 mb-4">{children}</ol>
-      ),
-      [BLOCKS.LIST_ITEM]: (node, children) => (
-        <li className="mb-2">{children}</li>
-      ),
-      [BLOCKS.QUOTE]: (node, children) => (
-        <blockquote className="border-l-4 border-gray-300 pl-4 italic mb-4">
-          {children}
-        </blockquote>
-      ),
-      [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
-        const assetId = node.data.target.sys.id;
-        const assets = content?.links?.assets?.block || [];
-        return <RichTextAsset id={assetId} assets={assets} />;
+      [BLOCKS.EMBEDDED_ASSET]: (node: Node) => {
+        if (node.nodeType === BLOCKS.EMBEDDED_ASSET) {
+          return <RichTextAsset id={node.data.target.sys.id} assets={assets} />;
+        }
+        return null;
       },
-      [INLINES.HYPERLINK]: (node, children) => (
-        <a
-          href={node.data.uri}
-          className="text-blue-600 hover:underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {children}
-        </a>
-      ),
-    },
-  });
+      [BLOCKS.PARAGRAPH]: (node: Node, children: React.ReactNode) => {
+        return <p className="mb-4">{children}</p>;
+      },
+      [BLOCKS.HEADING_1]: (node: Node, children: React.ReactNode) => {
+        return <h1 className="text-4xl font-bold mb-4">{children}</h1>;
+      },
+      [BLOCKS.HEADING_2]: (node: Node, children: React.ReactNode) => {
+        return <h2 className="text-3xl font-bold mb-4">{children}</h2>;
+      },
+      [BLOCKS.HEADING_3]: (node: Node, children: React.ReactNode) => {
+        return <h3 className="text-2xl font-bold mb-4">{children}</h3>;
+      },
+      [BLOCKS.UL_LIST]: (node: Node, children: React.ReactNode) => {
+        return <ul className="list-disc pl-6 mb-4">{children}</ul>;
+      },
+      [BLOCKS.OL_LIST]: (node: Node, children: React.ReactNode) => {
+        return <ol className="list-decimal pl-6 mb-4">{children}</ol>;
+      },
+      [BLOCKS.LIST_ITEM]: (node: Node, children: React.ReactNode) => {
+        return <li className="mb-2">{children}</li>;
+      },
+      [INLINES.HYPERLINK]: (node: Node, children: React.ReactNode) => {
+        if (node.nodeType === INLINES.HYPERLINK) {
+          return (
+            <a
+              href={node.data.uri}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              {children}
+            </a>
+          );
+        }
+        return null;
+      },
+    } as Record<string, NodeRenderer>,
+  };
+
+  return documentToReactComponents(content, options);
 }
