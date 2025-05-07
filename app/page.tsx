@@ -21,17 +21,40 @@ function Intro({ frontPage }: { frontPage: any }) {
   }
 
   return (
-    <section className="flex-col md:flex-row flex items-center md:justify-between mt-16 mb-16 md:mb-12">
-      <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight md:pr-8">
-        {frontPage?.title}
-      </h1>
-      <div className="text-center md:text-left text-lg mt-5 md:pl-8">
-        <Markdown
-          content={frontPage.content.json}
-          assets={frontPage.content.links?.assets?.block || []}
-        />
-      </div>
-    </section>
+    <>
+      <section className="flex-col md:flex-row flex items-center md:justify-between pt-16 mb-5 md:mb-5">
+        <h1 className="text-6xl md:text-8xl font-semibold tracking-tighter leading-tight md:pr-8">
+          {frontPage?.title}
+        </h1>
+        {frontPage.introduction && (
+          <div className="text-center md:text-left text-lg pt-5 md:pl-8">
+            <h2 className="text-1xl lg:text-3xl leading-tight">
+              {frontPage.introduction}
+            </h2>
+          </div>
+        )}
+      </section>
+      <section>
+        <div className="text-center md:text-left text-lg pt-2 mb-8">
+          <Markdown
+            content={frontPage.content.json}
+            assets={frontPage.content.links?.assets?.block || []}
+          />
+        </div>
+      </section>
+      <section className="-mx-5 md:mx-0">
+        <div className="w-full h-auto mb-10">
+          <img
+            src={frontPage.heroImage.url}
+            alt="Etusivun hero-kuva, joka on AI:n luoma abstrakti kuvio"
+            className="w-full h-auto"
+          />
+        </div>
+      </section>
+      <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
+        Arkiapuri-blogi
+      </h2>
+    </>
   );
 }
 
@@ -57,7 +80,7 @@ function HeroPost({
       </div>
       <div className="md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28">
         <div>
-          <h3 className="mb-4 text-4xl lg:text-6xl leading-tight">
+          <h3 className="mb-4 text-2xl lg:text-4xl leading-tight">
             <Link href={`/posts/${slug}`} className="hover:underline">
               {title}
             </Link>

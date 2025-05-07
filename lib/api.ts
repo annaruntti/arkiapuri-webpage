@@ -172,6 +172,13 @@ export async function getAllPages(
         items {
           slug
           title
+          introduction
+          heroImage {
+            url
+          }
+          coverImage {
+            url
+          }
           content {
             json
             links {
