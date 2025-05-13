@@ -54,7 +54,7 @@ export default async function RootLayout({
                   Tutustu portfoliooni
                 </Button>
                 <Button
-                  href="https://github.com/annatiala"
+                  href="https://github.com/annaruntti"
                   variant="secondary"
                   className="mx-3 mx-3 mb-6 lg:mb-0"
                 >
