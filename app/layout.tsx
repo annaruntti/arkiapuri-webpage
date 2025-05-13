@@ -2,6 +2,7 @@ import "./globals.css";
 import { Fira_Sans } from "next/font/google";
 import { Button } from "./components/Button";
 import { Header } from "./components/Header";
+import { Navigation } from "./components/Navigation";
 import { getAllPages } from "@/lib/api";
 import { draftMode } from "next/headers";
 
@@ -30,6 +31,7 @@ export default async function RootLayout({
   return (
     <html lang="fi" className={firaSans.variable}>
       <body className="min-h-screen flex flex-col">
+        <Navigation pages={allPages} />
         <Header frontPage={frontPage} />
 
         <main className="flex-grow">{children}</main>
@@ -47,16 +49,16 @@ export default async function RootLayout({
                 <Button
                   href="https://anna.tiala.fi/"
                   variant="primary"
-                  className="mx-3 mb-6 lg:mb-0"
+                  className="mx-3 mb-3 lg:mb-0"
                 >
                   Tutustu portfoliooni
                 </Button>
                 <Button
                   href="https://github.com/annatiala"
                   variant="secondary"
-                  className="mx-3"
+                  className="mx-3 mx-3 mb-6 lg:mb-0"
                 >
-                  GitHub
+                  GitHub-profiilini
                 </Button>
               </div>
             </div>

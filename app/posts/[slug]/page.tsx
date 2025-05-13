@@ -49,9 +49,9 @@ export default async function PostPage({ params }: PageProps) {
           )}
         </div>
       </div>
-      {post.heroImage?.url && (
+      {post.coverImage?.url && (
         <section className="w-full mb-8 md:mb-16">
-          <CoverImage title={post.title} url={post.heroImage.url} />
+          <CoverImage title={post.title} url={post.coverImage.url} />
         </section>
       )}
       <div className="container mx-auto px-5">
