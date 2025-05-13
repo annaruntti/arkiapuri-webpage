@@ -30,6 +30,9 @@ export interface ContentfulPost {
   coverImage?: {
     url: string;
   };
+  heroImage?: {
+    url: string;
+  };
   date: string;
   author?: ContentfulAuthor;
   excerpt?: string;
@@ -39,7 +42,11 @@ export interface ContentfulPost {
 export interface ContentfulPage {
   slug: string;
   title: string;
+  introduction?: string;
   content: ContentfulContent;
+  heroImage?: {
+    url: string;
+  };
 }
 
 export interface ContentfulResponse<T> {

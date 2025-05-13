@@ -44,20 +44,29 @@ function PostPreview({
 export default function MoreStories({ morePosts }: { morePosts: any[] }) {
   return (
     <section>
-      <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
-        Lisää kirjoituksia
+      <h2 className="mb-8 text-6xl md:text-7xl font-bold tracking-tighter leading-tight">
+        Lisää artikkeleita
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-16 lg:gap-x-32 gap-y-20 md:gap-y-32 mb-32">
         {morePosts.map((post) => (
-          <PostPreview
-            key={post.slug}
-            title={post.title}
-            coverImage={post.coverImage}
-            date={post.date}
-            author={post.author}
-            slug={post.slug}
-            excerpt={post.excerpt}
-          />
+          <div key={post.slug}>
+            <div className="mb-5">
+              <CoverImage
+                title={post.title}
+                slug={post.slug}
+                url={post.heroImage.url}
+              />
+            </div>
+            <h3 className="mb-3 text-3xl leading-snug">
+              <Link href={`/posts/${post.slug}`} className="hover:underline">
+                {post.title}
+              </Link>
+            </h3>
+            <div className="mb-4 text-lg">
+              <DateComponent dateString={post.date} />
+            </div>
+            <p className="text-lg leading-relaxed mb-4">"{post.excerpt}"</p>
+          </div>
         ))}
       </div>
     </section>

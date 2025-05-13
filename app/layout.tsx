@@ -1,7 +1,9 @@
 import "./globals.css";
 import { Fira_Sans } from "next/font/google";
-import { EXAMPLE_PATH, CMS_NAME } from "@/lib/constants";
 import { Button } from "./components/Button";
+import { Header } from "./components/Header";
+import { getAllPages } from "@/lib/api";
+import { draftMode } from "next/headers";
 
 export const metadata = {
   title: `Arkiapurin esittely`,
@@ -9,53 +11,57 @@ export const metadata = {
 };
 
 const firaSans = Fira_Sans({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  display: "swap",
   variable: "--font-fira-sans",
 });
 
-function Footer() {
-  return (
-    <footer className="bg-accent-1 border-t border-accent-2">
-      <div className="container mx-auto px-5">
-        <div className="py-28 flex flex-col lg:flex-row items-center">
-          <h3 className="text-2xl lg:text-3xl font-semibold tracking-tighter leading-tight text-center lg:text-left mb-10 lg:mb-0 lg:pr-4 lg:w-1/2">
-            Nettisivujen ja Arkiapuri-sovelluksen kehitys ja design: Anna Tiala
-          </h3>
-          <div className="flex flex-col lg:flex-row justify-center items-center lg:pl-4 lg:w-1/2">
-            <Button
-              href="https://anna.tiala.fi/"
-              variant="primary"
-              className="mx-3 mb-6 lg:mb-0"
-            >
-              Tutustu portfoliooni
-            </Button>
-            <a
-              href={`https://github.com/annaruntti`}
-              className="mx-3 font-semibold hover:underline"
-            >
-              GitHub-profiilini
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { isEnabled } = await draftMode();
+  const allPages = (await getAllPages(isEnabled)) || [];
+  const frontPage = allPages.find(
+    (page: { slug: string }) => page.slug === "etusivu"
+  );
+
   return (
-    <html lang="en" className={firaSans.variable}>
-      <body>
-        <section className="min-h-screen">
-          <main>{children}</main>
-          <Footer />
-        </section>
+    <html lang="fi" className={firaSans.variable}>
+      <body className="min-h-screen flex flex-col">
+        <Header frontPage={frontPage} />
+
+        <main className="flex-grow">{children}</main>
+
+        <footer className="bg-gray-100 py-8">
+          <div className="container mx-auto px-5">
+            <div className="flex flex-col lg:flex-row justify-between items-center">
+              <div className="text-center lg:text-left mb-6 lg:mb-0">
+                <p className="text-gray-600">
+                  © {new Date().getFullYear()} Anna Tiala. Kaikki oikeudet
+                  pidätetään.
+                </p>
+              </div>
+              <div className="flex flex-col lg:flex-row items-center">
+                <Button
+                  href="https://anna.tiala.fi/"
+                  variant="primary"
+                  className="mx-3 mb-6 lg:mb-0"
+                >
+                  Tutustu portfoliooni
+                </Button>
+                <Button
+                  href="https://github.com/annatiala"
+                  variant="secondary"
+                  className="mx-3"
+                >
+                  GitHub
+                </Button>
+              </div>
+            </div>
+          </div>
+        </footer>
       </body>
     </html>
   );

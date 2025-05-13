@@ -35,43 +35,35 @@ export default async function PostPage({ params }: PageProps) {
   if (!post) {
     return (
       <div className="container mx-auto px-5">
-        <h2 className="mb-20 mt-8 text-2xl font-semibold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
-          <Link href="/" className="hover:underline">
-            Arkiapuri
-          </Link>
-          .
-        </h2>
         <p>Ei vielä tätä postauksia</p>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-5">
-      <h2 className="mb-20 mt-8 text-2xl font-semibold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
-        <Link href="/" className="hover:underline">
-          Arkiapuri
-        </Link>
-        .
-      </h2>
-      <article>
-        <h1 className="mb-12 text-center text-6xl font-semibold leading-tight tracking-tighter md:text-left md:text-7xl md:leading-none lg:text-8xl">
-          {post.title}
-        </h1>
-        <div className="hidden md:mb-12 md:block">
-          {post.author && (
-            <Avatar
-              name={post.author.name}
-              profilePicture={post.author.profilePicture}
-            />
+    <article>
+      <div className="container mx-auto px-5 py-8">
+        <div className="hidden md:mb-6 md:block">
+          {post.excerpt && (
+            <h2 className="text-xl leading-relaxed mb-4">"{post.excerpt}"</h2>
           )}
         </div>
-        <div className="mb-8 sm:mx-0 md:mb-16">
-          {post.coverImage?.url && (
-            <CoverImage title={post.title} url={post.coverImage.url} />
-          )}
-        </div>
+      </div>
+      {post.heroImage?.url && (
+        <section className="w-full mb-8 md:mb-16">
+          <CoverImage title={post.title} url={post.heroImage.url} />
+        </section>
+      )}
+      <div className="container mx-auto px-5">
         <div className="mx-auto max-w-2xl">
+          <div className="hidden md:mb-12 md:block">
+            {post.author && (
+              <Avatar
+                name={post.author.name}
+                profilePicture={post.author.profilePicture}
+              />
+            )}
+          </div>
           <div className="mb-6 block md:hidden">
             {post.author && (
               <Avatar
@@ -93,9 +85,14 @@ export default async function PostPage({ params }: PageProps) {
             />
           </div>
         </div>
-      </article>
-      <hr className="border-accent-2 mt-28 mb-24" />
-      <MoreStories morePosts={morePosts} />
-    </div>
+      </div>
+
+      <section className="mt-28 mb-24">
+        <div className="container mx-auto px-5">
+          <hr className="border-accent-2 mb-24" />
+          <MoreStories morePosts={morePosts} />
+        </div>
+      </section>
+    </article>
   );
 }

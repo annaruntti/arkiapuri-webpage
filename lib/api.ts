@@ -6,6 +6,9 @@ const POST_GRAPHQL_FIELDS = `
   coverImage {
     url
   }
+  heroImage {
+    url
+  }
   date
   author {
     ... on Author {
