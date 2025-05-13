@@ -43,7 +43,7 @@ export default async function PostPage({ params }: PageProps) {
   return (
     <article>
       <div className="container mx-auto px-5 py-8">
-        <div className="hidden md:mb-6 md:block">
+        <div className="md:mb-6">
           {post.excerpt && (
             <h2 className="text-xl leading-relaxed mb-4">"{post.excerpt}"</h2>
           )}
@@ -56,15 +56,7 @@ export default async function PostPage({ params }: PageProps) {
       )}
       <div className="container mx-auto px-5">
         <div className="mx-auto max-w-2xl">
-          <div className="hidden md:mb-12 md:block">
-            {post.author && (
-              <Avatar
-                name={post.author.name}
-                profilePicture={post.author.profilePicture}
-              />
-            )}
-          </div>
-          <div className="mb-6 block md:hidden">
+          <div className="mb-6">
             {post.author && (
               <Avatar
                 name={post.author.name}
