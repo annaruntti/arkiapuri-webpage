@@ -9,11 +9,13 @@ interface HeaderProps {
     introduction?: string;
     heroImage?: {
       url: string;
+      description?: string;
     };
   };
   postTitle?: string;
   postHeroImage?: {
     url: string;
+    description?: string;
   };
 }
 
@@ -31,7 +33,7 @@ export function Header({ frontPage, postTitle, postHeroImage }: HeaderProps) {
           <div className="absolute inset-0" aria-label="Hero image">
             <Image
               src={postHeroImage.url}
-              alt="Artikkelin hero-kuva"
+              alt={postHeroImage.description || "Artikkelin hero-kuva"}
               fill
               className="object-cover"
               priority
@@ -58,7 +60,7 @@ export function Header({ frontPage, postTitle, postHeroImage }: HeaderProps) {
         <div className="absolute inset-0" aria-label="Hero image">
           <Image
             src={frontPage.heroImage.url}
-            alt="Etusivun hero-kuva, joka on AI:n luoma abstrakti kuvio"
+            alt={frontPage.heroImage.description || "Etusivun hero-kuva"}
             fill
             className="object-cover"
             priority

@@ -22,7 +22,12 @@ function PostPreview({
     <div>
       <div className="mb-5">
         {coverImage?.url && (
-          <CoverImage title={title} slug={slug} url={coverImage.url} />
+          <CoverImage
+            title={title}
+            slug={slug}
+            url={coverImage.url}
+            description={coverImage.description}
+          />
         )}
       </div>
       <h3 className="text-3xl mb-3 leading-snug">
@@ -55,6 +60,7 @@ export default function MoreStories({ morePosts }: { morePosts: any[] }) {
                 title={post.title}
                 slug={post.slug}
                 url={post.heroImage.url}
+                description={post.heroImage.description}
               />
             </div>
             <h3 className="mb-3 text-3xl leading-snug">

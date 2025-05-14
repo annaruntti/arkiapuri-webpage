@@ -9,14 +9,16 @@ export default function CoverImage({
   title,
   url,
   slug,
+  description,
 }: {
   title: string;
   url: string;
   slug?: string;
+  description?: string;
 }) {
   const image = (
     <ContentfulImage
-      alt={`Cover Image for ${title}`}
+      alt={description || "Artikkelin kansikuva"}
       priority
       width={2000}
       height={1000}

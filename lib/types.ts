@@ -27,16 +27,36 @@ export interface ContentfulContent {
 export interface ContentfulPost {
   slug: string;
   title: string;
-  coverImage?: {
+  coverImage: {
     url: string;
+    description?: string;
   };
-  heroImage?: {
+  heroImage: {
     url: string;
+    description?: string;
   };
   date: string;
-  author?: ContentfulAuthor;
-  excerpt?: string;
-  content: ContentfulContent;
+  author: {
+    name: string;
+    profilePicture: {
+      url: string;
+    };
+  };
+  excerpt: string;
+  content: {
+    json: any;
+    links: {
+      assets: {
+        block: {
+          sys: {
+            id: string;
+          };
+          url: string;
+          description: string;
+        }[];
+      };
+    };
+  };
 }
 
 export interface ContentfulPage {
@@ -46,6 +66,7 @@ export interface ContentfulPage {
   content: ContentfulContent;
   heroImage?: {
     url: string;
+    description?: string;
   };
 }
 

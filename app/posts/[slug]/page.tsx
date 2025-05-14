@@ -35,10 +35,12 @@ export default async function PostPage({ params }: PageProps) {
   if (!post) {
     return (
       <div className="container mx-auto px-5">
-        <p>Ei vielä tätä postauksia</p>
+        <p>Ei vielä tätä kirjoituksia</p>
       </div>
     );
   }
+
+  console.log("Post coverImage:", post.coverImage);
 
   return (
     <article>
@@ -51,7 +53,11 @@ export default async function PostPage({ params }: PageProps) {
       </div>
       {post.coverImage?.url && (
         <section className="w-full mb-8 md:mb-16">
-          <CoverImage title={post.title} url={post.coverImage.url} />
+          <CoverImage
+            title={post.title}
+            url={post.coverImage.url}
+            description={post.coverImage.description}
+          />
         </section>
       )}
       <div className="container mx-auto px-5">

@@ -5,9 +5,11 @@ const POST_GRAPHQL_FIELDS = `
   title
   coverImage {
     url
+    description
   }
   heroImage {
     url
+    description
   }
   date
   author {
@@ -178,9 +180,11 @@ export async function getAllPages(
           introduction
           heroImage {
             url
+            description
           }
           coverImage {
             url
+            description
           }
           content {
             json
