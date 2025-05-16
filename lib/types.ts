@@ -68,6 +68,10 @@ export interface ContentfulPage {
     url: string;
     description?: string;
   };
+  coverImage?: {
+    url: string;
+    description?: string;
+  };
 }
 
 export interface ContentfulResponse<T> {

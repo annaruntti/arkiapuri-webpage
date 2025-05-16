@@ -9,6 +9,7 @@ import { Markdown } from "@/lib/markdown";
 
 import { getAllPages } from "@/lib/api";
 import { getAllPosts } from "@/lib/api";
+import { Header } from "./components/Header";
 
 function HeroPost({
   title,
@@ -57,37 +58,35 @@ function HeroPost({
   );
 }
 
-export default async function Page() {
+export default async function Home() {
   const { isEnabled } = await draftMode();
-  const allPages = (await getAllPages(isEnabled)) || [];
-  const allPosts = (await getAllPosts(isEnabled)) || [];
-  const frontPage = allPages.find(
-    (page: { slug: string }) => page.slug === "etusivu"
-  );
+  const allPages = await getAllPages(isEnabled);
+  const allPosts = await getAllPosts(isEnabled);
+  const frontPage = allPages.find((page) => page.slug === "etusivu");
   const heroPost = allPosts[0];
   const morePosts = allPosts.slice(1);
 
   if (!frontPage) {
-    return null;
+    return (
+      <div className="container mx-auto px-5">
+        <p>Etusivua ei löydy</p>
+      </div>
+    );
   }
 
   return (
-    <>
-      <section aria-labelledby="content" className="py-16 mb-10 bg-gray-50">
-        <div className="container mx-auto px-5">
-          <div className="max-w-3xl mx-auto">
-            <h2 id="content" className="sr-only">
-              Sisältö
-            </h2>
-            <div className="prose prose-lg">
-              <Markdown
-                content={frontPage.content.json}
-                assets={frontPage.content.links?.assets?.block || []}
-              />
-            </div>
+    <article>
+      <Header frontPage={frontPage} />
+      <div className="container mx-auto px-5 py-8">
+        <div className="max-w-3xl mx-auto">
+          <div className="prose prose-lg">
+            <Markdown
+              content={frontPage.content.json}
+              assets={frontPage.content.links?.assets?.block || []}
+            />
           </div>
         </div>
-      </section>
+      </div>
 
       <section className="mb-8">
         <div className="container mx-auto px-5">
@@ -108,6 +107,6 @@ export default async function Page() {
           {morePosts.length > 0 && <MoreStories morePosts={morePosts} />}
         </div>
       </section>
-    </>
+    </article>
   );
 }

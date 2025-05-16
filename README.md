@@ -17,7 +17,7 @@ This is the official website for Arkiapuri, a tool that helps you manage everyda
 ### Prerequisites
 
 - Node.js (v18 or later)
-- pnpm package manager
+- npm package manager
 - Contentful account
 
 ### Installation
@@ -32,7 +32,7 @@ cd arkiapuri-webpage
 2. Install dependencies:
 
 ```bash
-pnpm install
+npm install
 ```
 
 3. Set up environment variables:
@@ -49,7 +49,7 @@ CONTENTFUL_REVALIDATE_SECRET=your_revalidate_secret
 4. Run the development server:
 
 ```bash
-pnpm run dev
+npm run dev
 ```
 
 The site will be available at [http://localhost:3001](http://localhost:3001).

@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Fira_Sans } from "next/font/google";
 import { Button } from "./components/Button";
-import { Header } from "./components/Header";
 import { Navigation } from "./components/Navigation";
 import { getAllPages } from "@/lib/api";
 import { draftMode } from "next/headers";
@@ -23,17 +22,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const { isEnabled } = await draftMode();
-  const allPages = (await getAllPages(isEnabled)) || [];
-  const frontPage = allPages.find(
-    (page: { slug: string }) => page.slug === "etusivu"
-  );
+  const allPages = await getAllPages(isEnabled);
 
   return (
     <html lang="fi" className={firaSans.variable}>
       <body className="min-h-screen flex flex-col">
         <Navigation pages={allPages} />
-        <Header frontPage={frontPage} />
-
         <main className="flex-grow">{children}</main>
 
         <footer className="bg-gray-100 py-8">

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { HeaderContent } from "./HeaderContent";
 
 interface HeaderProps {
   frontPage?: {
@@ -17,11 +18,23 @@ interface HeaderProps {
     url: string;
     description?: string;
   };
+  pageTitle?: string;
+  coverImage?: {
+    url: string;
+    description?: string;
+  };
 }
 
-export function Header({ frontPage, postTitle, postHeroImage }: HeaderProps) {
+export function Header({
+  frontPage,
+  postTitle,
+  postHeroImage,
+  pageTitle,
+  coverImage,
+}: HeaderProps) {
   const pathname = usePathname();
   const isPostPage = pathname?.startsWith("/posts/");
+  const isFrontPage = pathname === "/";
 
   // If we're on a post page, only show the post title
   if (isPostPage) {
@@ -40,18 +53,40 @@ export function Header({ frontPage, postTitle, postHeroImage }: HeaderProps) {
             />
           </div>
         )}
-        <div className="absolute bottom-20 right-5 md:right-20 z-10">
-          <div className="bg-white/90 p-8 rounded-lg shadow-lg max-w-2xl ml-5 md:ml-0">
-            <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter leading-tight">
-              {postTitle}
-            </h1>
-          </div>
-        </div>
+        <HeaderContent>
+          <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter leading-tight">
+            {postTitle}
+          </h1>
+        </HeaderContent>
       </header>
     );
   }
 
-  // If we're not on a post page, only show the front page content
+  // If we're on a regular page, show the page cover image and title
+  if (!isFrontPage && pageTitle) {
+    return (
+      <header className="relative h-[50vh]">
+        {coverImage && (
+          <div className="absolute inset-0" aria-label="Page cover image">
+            <Image
+              src={coverImage.url}
+              alt={coverImage.description || "Sivun kansikuva"}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        )}
+        <HeaderContent>
+          <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter leading-tight">
+            {pageTitle}
+          </h1>
+        </HeaderContent>
+      </header>
+    );
+  }
+
+  // If we're on the front page, show the front page content
   if (!frontPage) return null;
 
   return (
@@ -67,23 +102,21 @@ export function Header({ frontPage, postTitle, postHeroImage }: HeaderProps) {
           />
         </div>
       )}
-      <div className="absolute bottom-20 right-5 md:right-20 z-10">
-        <div className="bg-white/90 p-8 rounded-lg shadow-lg max-w-2xl ml-5 md:ml-0">
-          <h1 className="text-6xl md:text-8xl font-semibold tracking-tighter leading-tight">
-            {frontPage.title}
-          </h1>
-          {frontPage.introduction && (
-            <div className="text-left text-lg pt-5">
-              <h2
-                className="text-1xl lg:text-3xl leading-tight"
-                id="introduction"
-              >
-                {frontPage.introduction}
-              </h2>
-            </div>
-          )}
-        </div>
-      </div>
+      <HeaderContent>
+        <h1 className="text-6xl md:text-8xl font-semibold tracking-tighter leading-tight">
+          {frontPage.title}
+        </h1>
+        {frontPage.introduction && (
+          <div className="text-left text-lg pt-5">
+            <h2
+              className="text-1xl lg:text-3xl leading-tight"
+              id="introduction"
+            >
+              {frontPage.introduction}
+            </h2>
+          </div>
+        )}
+      </HeaderContent>
     </header>
   );
 }
