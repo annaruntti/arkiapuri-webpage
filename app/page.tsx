@@ -75,38 +75,40 @@ export default async function Home() {
   }
 
   return (
-    <article>
+    <>
       <Header frontPage={frontPage} />
-      <div className="container mx-auto px-5 py-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="prose prose-lg">
-            <Markdown
-              content={frontPage.content.json}
-              assets={frontPage.content.links?.assets?.block || []}
-            />
+      <main className="flex-grow">
+        <div className="container mx-auto px-5 py-8">
+          <div className="max-w-3xl mx-auto">
+            <div className="prose prose-lg">
+              <Markdown
+                content={frontPage.content.json}
+                assets={frontPage.content.links?.assets?.block || []}
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <section className="mb-8">
-        <div className="container mx-auto px-5">
-          <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
-            Arkiapuri-blogi
-          </h2>
+        <section className="mb-8">
+          <div className="container mx-auto px-5">
+            <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
+              Arkiapuri-blogi
+            </h2>
 
-          {heroPost && (
-            <HeroPost
-              title={heroPost.title}
-              heroImage={heroPost.heroImage}
-              date={heroPost.date}
-              author={heroPost.author}
-              slug={heroPost.slug}
-              excerpt={heroPost.excerpt}
-            />
-          )}
-          {morePosts.length > 0 && <MoreStories morePosts={morePosts} />}
-        </div>
-      </section>
-    </article>
+            {heroPost && (
+              <HeroPost
+                title={heroPost.title}
+                heroImage={heroPost.heroImage}
+                date={heroPost.date}
+                author={heroPost.author}
+                slug={heroPost.slug}
+                excerpt={heroPost.excerpt}
+              />
+            )}
+            {morePosts.length > 0 && <MoreStories morePosts={morePosts} />}
+          </div>
+        </section>
+      </main>
+    </>
   );
 }

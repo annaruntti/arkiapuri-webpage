@@ -28,8 +28,7 @@ export default async function RootLayout({
     <html lang="fi" className={firaSans.variable}>
       <body className="min-h-screen flex flex-col">
         <Navigation pages={allPages} />
-        <main className="flex-grow">{children}</main>
-
+        {children}
         <footer className="bg-gray-100 py-8">
           <div className="container mx-auto px-5">
             <div className="flex flex-col lg:flex-row justify-between items-center">

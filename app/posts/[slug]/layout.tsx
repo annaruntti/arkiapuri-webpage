@@ -19,7 +19,7 @@ export default async function PostLayout({
   return (
     <>
       <Header postTitle={post.title} postHeroImage={post.heroImage} />
-      <main className="flex-grow">{children}</main>
+      {children}
     </>
   );
 }

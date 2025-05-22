@@ -24,23 +24,25 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <article>
+    <>
       <Header pageTitle={page.title} coverImage={page.coverImage} />
-      <div className="container mx-auto px-5 py-8">
-        <div className="max-w-3xl mx-auto">
-          {page.introduction && (
-            <div className="text-xl leading-relaxed mb-8">
-              {page.introduction}
+      <main className="flex-grow">
+        <div className="container mx-auto px-5 py-8">
+          <div className="max-w-3xl mx-auto">
+            {page.introduction && (
+              <div className="text-xl leading-relaxed mb-8">
+                {page.introduction}
+              </div>
+            )}
+            <div className="prose prose-lg">
+              <Markdown
+                content={page.content.json}
+                assets={page.content.links?.assets?.block || []}
+              />
             </div>
-          )}
-          <div className="prose prose-lg">
-            <Markdown
-              content={page.content.json}
-              assets={page.content.links?.assets?.block || []}
-            />
           </div>
         </div>
-      </div>
-    </article>
+      </main>
+    </>
   );
 }
