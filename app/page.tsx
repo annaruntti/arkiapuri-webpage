@@ -78,9 +78,9 @@ export default async function Home() {
     <>
       <Header frontPage={frontPage} />
       <main className="flex-grow">
-        <div className="container mx-auto px-5 py-8">
+        <div className="container mx-auto px-5 pt-12 pb-10">
           <div className="max-w-3xl mx-auto">
-            <div className="prose prose-lg">
+            <div className="prose prose-xl">
               <Markdown
                 content={frontPage.content.json}
                 assets={frontPage.content.links?.assets?.block || []}

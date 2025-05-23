@@ -107,3 +107,30 @@ The project implements optimized GraphQL queries to handle Contentful's complexi
 - Draft mode support for content preview
 - On-demand revalidation for instant updates
 - Error handling for API responses
+
+### Semantic HTML Structure
+
+The project follows strict semantic HTML structure for better accessibility and SEO:
+
+- Proper nesting of `<header>`, `<main>`, and `<footer>` elements
+- Layout components handle the overall page structure
+- Page components focus on content organization
+- Rich text content is properly structured with semantic elements
+- Navigation and header components are consistently placed outside of main content
+
+### Component Organization
+
+The project uses a clear component hierarchy:
+
+- Layout components (`app/layout.tsx`, `app/posts/[slug]/layout.tsx`) handle page structure
+- Page components handle specific page content
+- Reusable components (`Header`, `Navigation`, etc.) are placed in `app/components`
+- Rich text rendering is handled by a dedicated `Markdown` component
+
+### Accessibility Features
+
+- Semantic HTML structure for better screen reader support
+- Proper heading hierarchy
+- Alt text for images
+- ARIA labels where needed
+- Responsive design for all screen sizes
