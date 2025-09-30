@@ -3,49 +3,6 @@ import Avatar from "./avatar";
 import DateComponent from "./date";
 import CoverImage from "./cover-image";
 
-function PostPreview({
-  title,
-  coverImage,
-  date,
-  excerpt,
-  author,
-  slug,
-}: {
-  title: string;
-  coverImage: any;
-  date: string;
-  excerpt: string;
-  author: any;
-  slug: string;
-}) {
-  return (
-    <div>
-      <div className="mb-5">
-        {coverImage?.url && (
-          <CoverImage
-            title={title}
-            slug={slug}
-            url={coverImage.url}
-            description={coverImage.description}
-          />
-        )}
-      </div>
-      <h3 className="text-3xl mb-3 leading-snug">
-        <Link href={`/posts/${slug}`} className="hover:underline">
-          {title}
-        </Link>
-      </h3>
-      <div className="text-lg mb-4">
-        <DateComponent dateString={date} />
-      </div>
-      <p className="text-lg leading-relaxed mb-4">"{excerpt}"</p>
-      {author && (
-        <Avatar name={author.name} profilePicture={author.profilePicture} />
-      )}
-    </div>
-  );
-}
-
 export default function MoreStories({ morePosts }: { morePosts: any[] }) {
   return (
     <section>
@@ -59,8 +16,8 @@ export default function MoreStories({ morePosts }: { morePosts: any[] }) {
               <CoverImage
                 title={post.title}
                 slug={post.slug}
-                url={post.heroImage.url}
-                description={post.heroImage.description}
+                url={post.coverImage.url}
+                description={post.coverImage.description}
               />
             </div>
             <h3 className="mb-3 text-3xl leading-snug">
@@ -72,6 +29,15 @@ export default function MoreStories({ morePosts }: { morePosts: any[] }) {
               <DateComponent dateString={post.date} />
             </div>
             <p className="text-lg leading-relaxed mb-4">"{post.excerpt}"</p>
+            <div>
+              <p className="text-lg leading-relaxed mb-4">"{post.excerpt}"</p>
+              {post.author && (
+                <Avatar
+                  name={post.author.name}
+                  profilePicture={post.author.profilePicture}
+                />
+              )}
+            </div>
           </div>
         ))}
       </div>

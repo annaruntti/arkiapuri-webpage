@@ -41,15 +41,13 @@ export default async function PostPage({ params }: PageProps) {
     );
   }
 
-  console.log("Post coverImage:", post.coverImage);
-
   return (
     <>
       <main className="flex-grow">
         <div className="container mx-auto px-5 py-8">
           <div className="md:mb-6">
             {post.excerpt && (
-              <h2 className="text-xl leading-relaxed mb-4">"{post.excerpt}"</h2>
+              <h2 className="text-xl leading-relaxed pt-4">"{post.excerpt}"</h2>
             )}
           </div>
         </div>

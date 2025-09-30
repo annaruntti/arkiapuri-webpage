@@ -98,7 +98,7 @@ export default async function Home() {
             {heroPost && (
               <HeroPost
                 title={heroPost.title}
-                heroImage={heroPost.heroImage}
+                heroImage={heroPost.coverImage}
                 date={heroPost.date}
                 author={heroPost.author}
                 slug={heroPost.slug}

@@ -38,18 +38,18 @@ export default async function RootLayout({
                   pidätetään.
                 </p>
               </div>
-              <div className="flex flex-col lg:flex-row items-center">
+              <div className="flex flex-col md:flex-row items-center gap-3">
                 <Button
                   href="https://anna.tiala.fi/"
                   variant="primary"
-                  className="mx-3 mb-3 lg:mb-0"
+                  className="w-full md:flex-1 whitespace-nowrap"
                 >
                   Tutustu portfoliooni
                 </Button>
                 <Button
                   href="https://github.com/annaruntti"
                   variant="secondary"
-                  className="mx-3 mx-3 mb-6 lg:mb-0"
+                  className="w-full md:flex-1"
                 >
                   GitHub-profiilini
                 </Button>
