@@ -34,8 +34,7 @@ export default async function RootLayout({
             <div className="flex flex-col lg:flex-row justify-between items-center">
               <div className="text-center lg:text-left mb-6 lg:mb-0">
                 <p className="text-gray-600">
-                  © {new Date().getFullYear()} Anna Tiala. Kaikki oikeudet
-                  pidätetään.
+                  © {new Date().getFullYear()} Anna Tiala.
                 </p>
               </div>
               <div className="flex flex-col md:flex-row items-center gap-3">
