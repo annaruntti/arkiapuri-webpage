@@ -29,7 +29,7 @@ export default async function RootLayout({
       <body className="min-h-screen flex flex-col">
         <Navigation pages={allPages} />
         {children}
-        <footer className="bg-gray-100 py-8">
+        <footer className="py-8" style={{ backgroundColor: "#eeeeec" }}>
           <div className="container mx-auto px-5">
             <div className="flex flex-col lg:flex-row justify-between items-center">
               <div className="text-center lg:text-left mb-6 lg:mb-0">
@@ -37,7 +37,7 @@ export default async function RootLayout({
                   © {new Date().getFullYear()} Anna Tiala.
                 </p>
               </div>
-              <div className="flex flex-col md:flex-row items-center gap-3">
+              <div className="flex flex-col md:flex-row items-center gap-0 md:gap-3">
                 <Button
                   href="https://anna.tiala.fi/"
                   variant="primary"

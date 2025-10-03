@@ -30,7 +30,6 @@ export default function MoreStories({ morePosts }: { morePosts: any[] }) {
             </div>
             <p className="text-lg leading-relaxed mb-4">"{post.excerpt}"</p>
             <div>
-              <p className="text-lg leading-relaxed mb-4">"{post.excerpt}"</p>
               {post.author && (
                 <Avatar
                   name={post.author.name}

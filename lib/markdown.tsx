@@ -84,7 +84,12 @@ export function Markdown({ content, assets = [] }: MarkdownProps) {
       [BLOCKS.EMBEDDED_ENTRY]: (node: Node) => {
         // Embedded entries differently based on the type of entry
         return (
-          <div className="my-4 p-4 bg-gray-50 rounded">Embedded Entry</div>
+          <div
+            className="my-4 p-4 rounded"
+            style={{ backgroundColor: "#eeeeec" }}
+          >
+            Embedded Entry
+          </div>
         );
       },
       [BLOCKS.UL_LIST]: (_, children: React.ReactNode) => {
@@ -146,7 +151,14 @@ export function Markdown({ content, assets = [] }: MarkdownProps) {
       },
       [INLINES.EMBEDDED_ENTRY]: (node: Node) => {
         // Embedded entries differently based on the type of entry
-        return <div className="my-2 p-2 bg-gray-50 rounded">Inline Entry</div>;
+        return (
+          <div
+            className="my-2 p-2 rounded"
+            style={{ backgroundColor: "#eeeeec" }}
+          >
+            Inline Entry
+          </div>
+        );
       },
     } as Record<string, NodeRenderer>,
   };

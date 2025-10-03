@@ -1,5 +1,7 @@
 import { ContentfulPost, ContentfulPage, ContentfulResponse } from "./types";
 
+/* Post GraphQL fields */
+
 const POST_GRAPHQL_FIELDS = `
   slug
   title
@@ -166,6 +168,50 @@ export async function getPostAndMorePosts(
   };
 }
 
+/* Page GraphQL fields */
+
+const PAGE_GRAPHQL_FIELDS = `
+  slug
+  title
+  introduction
+  heroImage {
+    url
+    description
+  }
+  coverImage {
+    url
+    description
+  }
+  content {
+    json
+    links {
+      assets {
+        block {
+          sys {
+            id
+          }
+          url
+          description
+        }
+      }
+    }
+  }
+  leftTextColumn
+  rightVideoColumn {
+    json
+    links {
+      assets {
+        block {
+          sys {
+            id
+          }
+          url
+          description
+        }
+      }
+    }
+  }
+`;
 export async function getAllPages(
   isDraftMode: boolean
 ): Promise<ContentfulPage[]> {
@@ -175,35 +221,12 @@ export async function getAllPages(
         isDraftMode ? "true" : "false"
       }, limit: 5) {
         items {
-          slug
-          title
-          introduction
-          heroImage {
-            url
-            description
-          }
-          coverImage {
-            url
-            description
-          }
-          content {
-            json
-            links {
-              assets {
-                block {
-                  sys {
-                    id
-                  }
-                  url
-                  description
-                }
-              }
-            }
-          }
+          ${PAGE_GRAPHQL_FIELDS}
         }
       }
     }`,
     isDraftMode
   );
+
   return entries?.data?.pageCollection?.items || [];
 }

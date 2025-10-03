@@ -12,7 +12,6 @@ interface NavigationProps {
 
 export function Navigation({ pages }: NavigationProps) {
   const pathname = usePathname();
-  const isPostPage = pathname?.startsWith("/posts/");
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm">
@@ -20,20 +19,23 @@ export function Navigation({ pages }: NavigationProps) {
         <div className="flex items-center justify-between h-16">
           <Link
             href="/"
-            className="text-xl font-semibold hover:text-gray-600 transition-colors"
+            className={`text-xl font-semibold hover:text-gray-600 transition-colors pb-1 ${
+              pathname === "/" ? "border-b-2 border-primary" : ""
+            }`}
           >
             Arkiapuri
           </Link>
-
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-4 md:space-x-6">
             {pages
               .filter((page) => page.slug !== "etusivu")
               .map((page) => (
                 <Link
                   key={page.slug}
                   href={`/${page.slug}`}
-                  className={`text-gray-600 hover:text-gray-900 transition-colors ${
-                    pathname === `/${page.slug}` ? "font-medium" : ""
+                  className={`text-gray-600 hover:text-gray-900 transition-colors pb-1 ${
+                    pathname === `/${page.slug}`
+                      ? "font-medium border-b-2 border-primary"
+                      : ""
                   }`}
                 >
                   {page.title}

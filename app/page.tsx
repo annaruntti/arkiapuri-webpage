@@ -11,6 +11,90 @@ import { getAllPages } from "@/lib/api";
 import { getAllPosts } from "@/lib/api";
 import { Header } from "./components/Header";
 
+// Utility function to extract YouTube video ID from URL
+function getYouTubeVideoId(url: string): string | null {
+  const regex =
+    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=|shorts\/)|youtu\.be\/)([^"&?\/\s]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+
+// Component to render YouTube video from rich text content
+function YouTubeEmbed({ content }: { content: any }) {
+  // Extract URL from rich text content
+  const extractUrlFromRichText = (richTextContent: any): string | null => {
+    if (!richTextContent?.content) return null;
+
+    for (const node of richTextContent.content) {
+      if (node.nodeType === "paragraph" && node.content) {
+        for (const childNode of node.content) {
+          // Check for hyperlink first
+          if (childNode.nodeType === "hyperlink" && childNode.data?.uri) {
+            return childNode.data.uri;
+          }
+          // Check for plain text that looks like a YouTube URL
+          if (childNode.nodeType === "text" && childNode.value) {
+            const text = childNode.value.trim();
+            if (text.includes("youtube.com") || text.includes("youtu.be")) {
+              return text;
+            }
+          }
+        }
+      }
+    }
+    return null;
+  };
+
+  const url = extractUrlFromRichText(content);
+  if (!url) return <p>No YouTube URL found</p>;
+
+  const videoId = getYouTubeVideoId(url);
+  if (!videoId) return <p>Invalid YouTube URL</p>;
+
+  return (
+    <div
+      className="mx-auto overflow-hidden rounded-lg relative w-full max-w-sm md:w-80 youtube-container"
+      style={{ height: "650px" }}
+    >
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}?controls=1&modestbranding=1&rel=0&showinfo=0`}
+        title="Arkiapuri esittelyvideo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        className="rounded-lg youtube-embed"
+        role="application"
+        aria-label="Arkiapuri esittelyvideo"
+        style={{
+          width: "250%",
+          height: "745px",
+          position: "absolute",
+          top: "-42px",
+          left: "-75%",
+          border: "none",
+        }}
+      ></iframe>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+          @media (min-width: 769px) {
+            .youtube-embed {
+              width: 320px !important;
+              height: 592px !important;
+              left: 0px !important;
+              top: -12px !important;
+            }
+            .youtube-container {
+              width: 320px !important;
+              height: 569px !important;
+            }
+          }
+        `,
+        }}
+      />
+    </div>
+  );
+}
+
 function HeroPost({
   title,
   heroImage,
@@ -88,6 +172,34 @@ export default async function Home() {
             </div>
           </div>
         </div>
+
+        {/* Two-column section: Text left, Video right */}
+        {(frontPage.leftTextColumn || frontPage.rightVideoColumn) && (
+          <section
+            className="py-14 mb-16"
+            style={{ backgroundColor: "#eeeeec" }}
+          >
+            <div className="container mx-auto px-5">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                {/* Left column - Text content */}
+                <div className="prose prose-lg">
+                  {frontPage.leftTextColumn && (
+                    <div className="text-lg leading-relaxed whitespace-pre-line">
+                      {frontPage.leftTextColumn}
+                    </div>
+                  )}
+                </div>
+
+                {/* Right column - YouTube video */}
+                <div>
+                  {frontPage.rightVideoColumn && (
+                    <YouTubeEmbed content={frontPage.rightVideoColumn.json} />
+                  )}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         <section className="mb-8">
           <div className="container mx-auto px-5">

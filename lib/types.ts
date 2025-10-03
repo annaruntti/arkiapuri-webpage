@@ -72,6 +72,8 @@ export interface ContentfulPage {
     url: string;
     description?: string;
   };
+  leftTextColumn?: string;
+  rightVideoColumn?: ContentfulContent;
 }
 
 export interface ContentfulResponse<T> {
