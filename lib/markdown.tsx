@@ -20,17 +20,42 @@ function RichTextAsset({ id, assets }: RichTextAssetProps) {
 
   return (
     <div className="relative w-full my-8">
-      <div className="relative aspect-[3/4] md:aspect-[9/16] bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-        <Image
-          src={asset.url}
-          alt={asset.description || ""}
-          fill
-          className="object-contain p-4"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          priority
-          unoptimized
-          style={{ objectPosition: "center", marginTop: 0 }}
+      <div className="relative aspect-[3/5] md:aspect-[2/3] rounded-lg md:rounded-md overflow-hidden border border-gray-200 md:p-4 md:flex md:items-center md:justify-center">
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+            @media (min-width: 768px) {
+              .desktop-gray-bg {
+                background-color: #eeeeec !important;
+              }
+            }
+          `,
+          }}
         />
+        <div className="desktop-gray-bg absolute inset-0 rounded-lg md:rounded-md -z-10"></div>
+        <div className="mobile-height relative w-full h-full md:w-4/5 md:h-4/5">
+          <style
+            dangerouslySetInnerHTML={{
+              __html: `
+              @media (max-width: 767px) {
+                .mobile-height {
+                  height: 103% !important;
+                }
+              }
+            `,
+            }}
+          />
+          <Image
+            src={asset.url}
+            alt={asset.description || ""}
+            fill
+            className="object-cover md:object-contain md:rounded-[5px]"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority
+            unoptimized
+            style={{ objectPosition: "center 15%", marginTop: "-1.3em" }}
+          />
+        </div>
       </div>
     </div>
   );

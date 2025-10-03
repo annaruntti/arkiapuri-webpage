@@ -32,9 +32,9 @@ export function Navigation({ pages }: NavigationProps) {
                 <Link
                   key={page.slug}
                   href={`/${page.slug}`}
-                  className={`text-gray-600 hover:text-gray-900 transition-colors pb-1 ${
+                  className={`text-gray-600 hover:text-gray-900 transition-colors pb-1 text-sm md:text-base font-semibold ${
                     pathname === `/${page.slug}`
-                      ? "font-medium border-b-2 border-primary"
+                      ? "border-b-2 border-primary"
                       : ""
                   }`}
                 >
