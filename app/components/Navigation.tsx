@@ -25,7 +25,7 @@ export function Navigation({ pages }: NavigationProps) {
           >
             Arkiapuri
           </Link>
-          <div className="flex items-center space-x-4 md:space-x-6">
+          <div className="flex items-center space-x-2 md:space-x-4">
             {pages
               .filter((page) => page.slug !== "etusivu")
               .map((page) => (
