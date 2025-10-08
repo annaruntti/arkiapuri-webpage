@@ -15,7 +15,7 @@ export function Button({
   className = "",
 }: ButtonProps) {
   const baseStyles =
-    "inline-block font-medium text-center transition-colors duration-200";
+    "inline-block font-medium text-center transition-all duration-300 ease-out hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:shadow-md";
 
   const variantStyles = {
     primary:

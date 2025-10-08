@@ -6,6 +6,7 @@ import CoverImage from "./cover-image";
 import Avatar from "./avatar";
 import MoreStories from "./more-stories";
 import { Markdown } from "@/lib/markdown";
+import { ScrollAnimation } from "./components/ScrollAnimation";
 
 import { getAllPages } from "@/lib/api";
 import { getAllPosts } from "@/lib/api";
@@ -52,36 +53,37 @@ function YouTubeEmbed({ content }: { content: any }) {
   if (!videoId) return <p>Invalid YouTube URL</p>;
 
   return (
-    <div
-      className="mx-auto overflow-hidden rounded-lg relative w-full max-w-sm md:w-80 youtube-container"
-      style={{ height: "650px" }}
-    >
-      <iframe
-        src={`https://www.youtube.com/embed/${videoId}?controls=1&modestbranding=1&rel=0&showinfo=0`}
-        title="Arkiapuri esittelyvideo"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        className="rounded-lg youtube-embed"
-        role="application"
-        aria-label="Arkiapuri esittelyvideo"
-        style={{
-          width: "250%",
-          height: "745px",
-          position: "absolute",
-          top: "-42px",
-          left: "-75%",
-          border: "none",
-        }}
-      ></iframe>
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
+    <ScrollAnimation animation="scale-in" delay={0.2}>
+      <div
+        className="mx-auto overflow-hidden rounded-lg relative w-full max-w-sm md:w-80 youtube-container hover-lift"
+        style={{ height: "650px" }}
+      >
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}?controls=1&modestbranding=1&rel=0&showinfo=0`}
+          title="Arkiapuri esittelyvideo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="rounded-lg youtube-embed"
+          role="application"
+          aria-label="Arkiapuri esittelyvideo"
+          style={{
+            width: "250%",
+            height: "745px",
+            position: "absolute",
+            top: "-42px",
+            left: "-75%",
+            border: "none",
+          }}
+        ></iframe>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
           @media (min-width: 769px) {
             .youtube-embed {
               width: 320px !important;
               height: 592px !important;
               left: 0px !important;
-              top: -12px !important;
+              top: 23px !important;
             }
             .youtube-container {
               width: 320px !important;
@@ -89,9 +91,10 @@ function YouTubeEmbed({ content }: { content: any }) {
             }
           }
         `,
-        }}
-      />
-    </div>
+          }}
+        />
+      </div>
+    </ScrollAnimation>
   );
 }
 
@@ -111,34 +114,48 @@ function HeroPost({
   slug: string;
 }) {
   return (
-    <section>
-      <div className="mb-8 md:mb-16">
-        <CoverImage
-          title={title}
-          slug={slug}
-          url={heroImage.url}
-          description={heroImage.description}
-        />
-      </div>
-      <div className="md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28">
-        <div>
-          <h3 className="mb-4 text-2xl lg:text-4xl leading-tight">
-            <Link href={`/posts/${slug}`} className="hover:underline">
-              {title}
-            </Link>
-          </h3>
-          <div className="mb-4 md:mb-0 text-lg">
-            <Date dateString={date} />
+    <ScrollAnimation animation="fade-in-up" delay={0.1}>
+      <section>
+        <ScrollAnimation animation="scale-in" delay={0.2}>
+          <div className="mb-8 md:mb-16 group">
+            <CoverImage
+              title={title}
+              slug={slug}
+              url={heroImage.url}
+              description={heroImage.description}
+            />
           </div>
+        </ScrollAnimation>
+        <div className="md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28">
+          <ScrollAnimation animation="slide-in-left" delay={0.3}>
+            <div>
+              <h3 className="mb-4 text-2xl lg:text-4xl leading-tight">
+                <Link
+                  href={`/posts/${slug}`}
+                  className="hover:text-primary transition-colors hover-scale"
+                >
+                  {title}
+                </Link>
+              </h3>
+              <div className="mb-4 md:mb-0 text-lg">
+                <Date dateString={date} />
+              </div>
+            </div>
+          </ScrollAnimation>
+          <ScrollAnimation animation="slide-in-right" delay={0.4}>
+            <div>
+              <p className="text-lg leading-relaxed mb-4">"{excerpt}"</p>
+              {author && (
+                <Avatar
+                  name={author.name}
+                  profilePicture={author.profilePicture}
+                />
+              )}
+            </div>
+          </ScrollAnimation>
         </div>
-        <div>
-          <p className="text-lg leading-relaxed mb-4">"{excerpt}"</p>
-          {author && (
-            <Avatar name={author.name} profilePicture={author.profilePicture} />
-          )}
-        </div>
-      </div>
-    </section>
+      </section>
+    </ScrollAnimation>
   );
 }
 
@@ -162,64 +179,83 @@ export default async function Home() {
     <>
       <Header frontPage={frontPage} />
       <main className="flex-grow">
-        <div className="container mx-auto px-5 pt-12 pb-10">
-          <div className="max-w-3xl mx-auto">
-            <div className="prose prose-xl">
-              <Markdown
-                content={frontPage.content.json}
-                assets={frontPage.content.links?.assets?.block || []}
-              />
+        <ScrollAnimation animation="fade-in" delay={0.5} duration={2.0}>
+          <div className="container mx-auto px-5 pt-12 pb-10">
+            <div className="max-w-3xl mx-auto">
+              <div className="prose prose-xl">
+                <Markdown
+                  content={frontPage.content.json}
+                  assets={frontPage.content.links?.assets?.block || []}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </ScrollAnimation>
 
         {/* Two-column section: Text left, Video right */}
         {(frontPage.leftTextColumn || frontPage.rightVideoColumn) && (
-          <section
-            className="py-14 mb-16"
-            style={{ backgroundColor: "#eeeeec" }}
-          >
-            <div className="container mx-auto px-5">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                {/* Left column - Text content */}
-                <div className="prose prose-lg">
-                  {frontPage.leftTextColumn && (
-                    <div className="text-lg leading-relaxed whitespace-pre-line">
-                      {frontPage.leftTextColumn}
+          <ScrollAnimation animation="fade-in-up" delay={0.2}>
+            <section
+              className="py-14 mb-16"
+              style={{ backgroundColor: "#eeeeec" }}
+            >
+              <div className="container mx-auto px-5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                  {/* Left column - Text content */}
+                  <ScrollAnimation animation="slide-in-left" delay={0.3}>
+                    <div className="prose prose-lg">
+                      {frontPage.leftTextColumn && (
+                        <div className="text-lg leading-relaxed whitespace-pre-line">
+                          {frontPage.leftTextColumn}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
+                  </ScrollAnimation>
 
-                {/* Right column - YouTube video */}
-                <div>
-                  {frontPage.rightVideoColumn && (
-                    <YouTubeEmbed content={frontPage.rightVideoColumn.json} />
-                  )}
+                  {/* Right column - YouTube video */}
+                  <ScrollAnimation animation="slide-in-right" delay={0.4}>
+                    <div>
+                      {frontPage.rightVideoColumn && (
+                        <YouTubeEmbed
+                          content={frontPage.rightVideoColumn.json}
+                        />
+                      )}
+                    </div>
+                  </ScrollAnimation>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </ScrollAnimation>
         )}
 
-        <section className="mb-8">
-          <div className="container mx-auto px-5">
-            <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
-              Arkiapuri-blogi
-            </h2>
+        <ScrollAnimation animation="fade-in-up" delay={0.1}>
+          <section className="mb-8">
+            <div className="container mx-auto px-5">
+              <ScrollAnimation animation="bounce-in" delay={0.2}>
+                <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
+                  <Link
+                    href="/artikkelit"
+                    className="hover:text-primary transition-colors hover-scale"
+                  >
+                    Arkiapuri-blogi
+                  </Link>
+                </h2>
+              </ScrollAnimation>
 
-            {heroPost && (
-              <HeroPost
-                title={heroPost.title}
-                heroImage={heroPost.coverImage}
-                date={heroPost.date}
-                author={heroPost.author}
-                slug={heroPost.slug}
-                excerpt={heroPost.excerpt}
-              />
-            )}
-            {morePosts.length > 0 && <MoreStories morePosts={morePosts} />}
-          </div>
-        </section>
+              {heroPost && (
+                <HeroPost
+                  title={heroPost.title}
+                  heroImage={heroPost.coverImage}
+                  date={heroPost.date}
+                  author={heroPost.author}
+                  slug={heroPost.slug}
+                  excerpt={heroPost.excerpt}
+                />
+              )}
+              {morePosts.length > 0 && <MoreStories morePosts={morePosts} />}
+            </div>
+          </section>
+        </ScrollAnimation>
       </main>
     </>
   );

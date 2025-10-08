@@ -41,7 +41,7 @@ export function Navigation({ pages }: NavigationProps) {
           >
             <Link
               href="/"
-              className="flex items-center space-x-2 text-xl font-semibold hover:text-gray-600 transition-colors pb-1"
+              className="flex items-center space-x-2 text-xl font-semibold hover:text-primary transition-colors pb-1"
             >
               <Image
                 src="https://images.ctfassets.net/2pij69ehhf4n/6LZK728PZQsNiI5R5t4VUa/3122e850f29febf7b05cc2ff018cdae8/arkiapuri-logo.png"
@@ -56,7 +56,7 @@ export function Navigation({ pages }: NavigationProps) {
 
           {/* Navigation links row - show when scrolled on front-page, hide when scrolled on other pages */}
           <div
-            className={`border-t border-gray-100 py-2 transition-all duration-300 ${
+            className={`border-t border-gray-100 transition-all duration-300 ${
               pathname === "/"
                 ? isScrolled
                   ? "max-h-20 opacity-100"
@@ -69,8 +69,10 @@ export function Navigation({ pages }: NavigationProps) {
             <div className="flex justify-center items-center space-x-4">
               <Link
                 href="/artikkelit"
-                className={`text-gray-600 hover:text-gray-900 transition-colors pb-1 text-sm font-semibold ${
-                  pathname === "/artikkelit" ? "border-b-2 border-primary" : ""
+                className={`text-gray-600 hover:text-primary transition-colors text-sm font-semibold py-2 md:py-4 ${
+                  pathname === "/artikkelit"
+                    ? "border-b-2 border-primary text-primary"
+                    : ""
                 }`}
               >
                 Artikkelit
@@ -81,9 +83,9 @@ export function Navigation({ pages }: NavigationProps) {
                   <Link
                     key={page.slug}
                     href={`/${page.slug}`}
-                    className={`text-gray-600 hover:text-gray-900 transition-colors pb-1 text-sm font-semibold ${
+                    className={`text-gray-600 hover:text-primary transition-colors text-sm font-semibold py-2 md:py-4 ${
                       pathname === `/${page.slug}`
-                        ? "border-b-2 border-primary"
+                        ? "border-b-2 border-primary text-primary"
                         : ""
                     }`}
                   >
@@ -95,10 +97,10 @@ export function Navigation({ pages }: NavigationProps) {
         </div>
 
         {/* Desktop: Single row layout */}
-        <div className="hidden md:flex items-center justify-between h-16">
+        <div className="hidden md:flex items-center justify-between md:pt-1">
           <Link
             href="/"
-            className="flex items-center space-x-2 text-xl font-semibold hover:text-gray-600 transition-colors pb-1"
+            className="flex items-center space-x-2 text-xl font-semibold hover:text-primary transition-colors pb-1"
           >
             <Image
               src="https://images.ctfassets.net/2pij69ehhf4n/6LZK728PZQsNiI5R5t4VUa/3122e850f29febf7b05cc2ff018cdae8/arkiapuri-logo.png"
@@ -112,8 +114,10 @@ export function Navigation({ pages }: NavigationProps) {
           <div className="flex items-center space-x-4">
             <Link
               href="/artikkelit"
-              className={`text-gray-600 hover:text-gray-900 transition-colors pb-1 text-base font-semibold ${
-                pathname === "/artikkelit" ? "border-b-2 border-primary" : ""
+              className={`text-gray-600 hover:text-primary transition-colors text-base font-semibold py-2 md:py-4 relative ${
+                pathname === "/artikkelit"
+                  ? "text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
+                  : ""
               }`}
             >
               Artikkelit
@@ -124,9 +128,9 @@ export function Navigation({ pages }: NavigationProps) {
                 <Link
                   key={page.slug}
                   href={`/${page.slug}`}
-                  className={`text-gray-600 hover:text-gray-900 transition-colors pb-1 text-base font-semibold ${
+                  className={`text-gray-600 hover:text-primary transition-colors text-base font-semibold py-2 md:py-4 relative ${
                     pathname === `/${page.slug}`
-                      ? "border-b-2 border-primary"
+                      ? "text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
                       : ""
                   }`}
                 >

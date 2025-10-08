@@ -27,7 +27,7 @@ function PostCard({
   slug: string;
 }) {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg hover:shadow-purple-100 hover:-translate-y-1 transition-all duration-300 group">
       <div className="aspect-video relative">
         <CoverImage
           title={title}
@@ -70,7 +70,7 @@ export default async function ArtikkelitPage() {
           description: "Artikkelit header image",
         }}
       />
-      <main className="flex-grow">
+      <main className="flex-grow animate-fade-in">
         <div className="container mx-auto px-5 pt-10 md:pt-14 pb-10 md:pb-14">
           <div className="max-w-3xl mx-auto">
             <div className="text-xl leading-relaxed mb-10 md:mb-12">
@@ -81,7 +81,7 @@ export default async function ArtikkelitPage() {
 
           <div className="max-w-6xl mx-auto">
             {allPosts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-stagger">
                 {allPosts.map((post) => (
                   <PostCard
                     key={post.slug}

@@ -23,7 +23,8 @@ export default function CoverImage({
       width={2000}
       height={1000}
       className={cn("shadow-small", {
-        "hover:shadow-medium transition-shadow duration-200": slug,
+        "hover:shadow-medium hover:scale-105 transition-all duration-300 ease-out":
+          slug,
       })}
       src={url}
     />

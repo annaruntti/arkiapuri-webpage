@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { HeaderContent } from "./HeaderContent";
+import { ScrollAnimation } from "./ScrollAnimation";
 
 interface HeaderProps {
   frontPage?: {
@@ -54,9 +55,11 @@ export function Header({
           </div>
         )}
         <HeaderContent>
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter leading-tight">
-            {postTitle}
-          </h1>
+          <ScrollAnimation animation="fade-in" delay={0.3}>
+            <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter leading-tight">
+              {postTitle}
+            </h1>
+          </ScrollAnimation>
         </HeaderContent>
       </header>
     );
@@ -78,9 +81,11 @@ export function Header({
           </div>
         )}
         <HeaderContent>
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter leading-tight">
-            {pageTitle}
-          </h1>
+          <ScrollAnimation animation="fade-in" delay={0.3}>
+            <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter leading-tight">
+              {pageTitle}
+            </h1>
+          </ScrollAnimation>
         </HeaderContent>
       </header>
     );
@@ -103,18 +108,22 @@ export function Header({
         </div>
       )}
       <HeaderContent>
-        <h1 className="text-6xl md:text-8xl font-semibold tracking-tighter leading-tight">
-          {frontPage.title}
-        </h1>
+        <ScrollAnimation animation="fade-in" delay={0.3}>
+          <h1 className="text-6xl md:text-8xl font-semibold tracking-tighter leading-tight">
+            {frontPage.title}
+          </h1>
+        </ScrollAnimation>
         {frontPage.introduction && (
-          <div className="text-left text-lg pt-5">
-            <h2
-              className="text-1xl lg:text-3xl leading-tight"
-              id="introduction"
-            >
-              {frontPage.introduction}
-            </h2>
-          </div>
+          <ScrollAnimation animation="fade-in-up" delay={0.5}>
+            <div className="text-left text-lg pt-5">
+              <h2
+                className="text-1xl lg:text-3xl leading-tight"
+                id="introduction"
+              >
+                {frontPage.introduction}
+              </h2>
+            </div>
+          </ScrollAnimation>
         )}
       </HeaderContent>
     </header>
