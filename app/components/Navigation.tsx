@@ -69,7 +69,10 @@ export function Navigation({ pages }: NavigationProps) {
                 : "max-h-20 opacity-100"
             }`}
           >
-            <div className="flex justify-center items-center space-x-4">
+            <div
+              className="flex justify-center items-center space-x-4"
+              style={{ height: "38px", padding: "0.5rem" }}
+            >
               <Link
                 href="/artikkelit"
                 className={`text-gray-600 hover:text-primary transition-colors text-sm font-semibold py-2 md:py-4 ${
