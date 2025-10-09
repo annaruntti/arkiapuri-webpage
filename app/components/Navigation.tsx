@@ -103,10 +103,10 @@ export function Navigation({ pages }: NavigationProps) {
         </div>
 
         {/* Desktop: Single row layout */}
-        <div className="hidden md:flex items-center justify-between md:pt-1">
+        <div className="hidden md:flex items-center justify-between">
           <Link
             href="/"
-            className="flex items-center space-x-2 text-xl font-semibold hover:text-primary transition-colors pb-1"
+            className="flex items-center space-x-2 text-xl font-semibold hover:text-primary transition-colors"
           >
             <Image
               src="https://images.ctfassets.net/2pij69ehhf4n/6LZK728PZQsNiI5R5t4VUa/3122e850f29febf7b05cc2ff018cdae8/arkiapuri-logo.png"
@@ -117,14 +117,15 @@ export function Navigation({ pages }: NavigationProps) {
             />
             <span>Arkiapuri</span>
           </Link>
-          <div className="flex items-center space-x-4 space-y-4">
+          <div className="flex items-center space-x-4">
             <Link
               href="/artikkelit"
-              className={`text-gray-600 hover:text-primary transition-colors text-base font-semibold py-2 md:py-4 relative ${
+              className={`text-gray-600 hover:text-primary transition-colors text-base font-semibold py-3 relative ${
                 pathname === "/artikkelit"
                   ? "text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
                   : ""
               }`}
+              style={{ marginTop: 0, marginBottom: 0 }}
             >
               Artikkelit
             </Link>
@@ -134,11 +135,12 @@ export function Navigation({ pages }: NavigationProps) {
                 <Link
                   key={page.slug}
                   href={`/${page.slug}`}
-                  className={`text-gray-600 hover:text-primary transition-colors text-base font-semibold py-2 md:py-4 relative ${
+                  className={`text-gray-600 hover:text-primary transition-colors text-base font-semibold py-3 relative ${
                     pathname === `/${page.slug}`
                       ? "text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
                       : ""
                   }`}
+                  style={{ marginTop: 0, marginBottom: 0 }}
                 >
                   {page.title}
                 </Link>

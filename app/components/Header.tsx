@@ -42,7 +42,10 @@ export function Header({
     if (!postTitle) return null;
 
     return (
-      <header className="relative" style={{ minHeight: "91vh" }}>
+      <header
+        className="relative"
+        style={{ minHeight: "100vh", marginTop: "-80px", paddingTop: "80px" }}
+      >
         {postHeroImage && (
           <div className="absolute inset-0" aria-label="Hero image">
             <Image
@@ -68,7 +71,10 @@ export function Header({
   // If we're on a regular page, show the page cover image and title
   if (!isFrontPage && pageTitle) {
     return (
-      <header className="relative h-[50vh]">
+      <header
+        className="relative"
+        style={{ minHeight: "50vh", marginTop: "-80px", paddingTop: "80px" }}
+      >
         {coverImage && (
           <div className="absolute inset-0" aria-label="Page cover image">
             <Image
@@ -95,7 +101,10 @@ export function Header({
   if (!frontPage) return null;
 
   return (
-    <header className="relative" style={{ minHeight: "91vh" }}>
+    <header
+      className="relative"
+      style={{ minHeight: "100vh", marginTop: "-80px", paddingTop: "80px" }}
+    >
       {frontPage.heroImage && (
         <div className="absolute inset-0" aria-label="Hero image">
           <Image
