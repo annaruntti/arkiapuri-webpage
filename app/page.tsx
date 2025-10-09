@@ -58,13 +58,14 @@ function YouTubeEmbed({ content }: { content: any }) {
       style={{ height: "650px" }}
     >
       <iframe
-        src={`https://www.youtube.com/embed/${videoId}?controls=1&modestbranding=1&rel=0&showinfo=0`}
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?controls=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&fs=1&disablekb=0&enablejsapi=0&cc_load_policy=0&playsinline=1`}
         title="Arkiapuri esittelyvideo"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
         className="rounded-lg youtube-embed"
         role="application"
         aria-label="Arkiapuri esittelyvideo"
+        loading="lazy"
         style={{
           width: "250%",
           height: "745px",

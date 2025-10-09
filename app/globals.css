@@ -31,6 +31,8 @@ body {
   opacity: 0;
   transform: translateY(30px);
   transition: none;
+  /* Ensure text is still accessible */
+  visibility: visible;
 }
 
 /* Custom animations */
@@ -356,12 +358,14 @@ body {
     transform: translateZ(0);
   }
 
-  /* Prevent flash of unstyled content */
+  /* Prevent flash of unstyled content - use opacity instead of visibility */
   .animate-hidden {
-    visibility: hidden;
+    opacity: 0;
+    visibility: visible;
   }
 
   [data-animated="true"] {
+    opacity: 1;
     visibility: visible;
   }
 }

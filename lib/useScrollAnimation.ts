@@ -23,13 +23,8 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
   const handleIntersection = useCallback(
     ([entry]: IntersectionObserverEntry[]) => {
       if (entry.isIntersecting && !hasAnimated) {
-        // Use a small delay to prevent flashing on mobile
-        const timeoutId = setTimeout(() => {
-          setIsVisible(true);
-          setHasAnimated(true);
-        }, 50);
-
-        return () => clearTimeout(timeoutId);
+        setIsVisible(true);
+        setHasAnimated(true);
       } else if (!triggerOnce && !entry.isIntersecting && hasAnimated) {
         setIsVisible(false);
       }
@@ -40,6 +35,15 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
+
+    // Check if element is already in view on initial load
+    const rect = element.getBoundingClientRect();
+    const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+
+    if (isInView && !hasAnimated) {
+      setIsVisible(true);
+      setHasAnimated(true);
+    }
 
     // Clean up existing observer
     if (observerRef.current) {
@@ -70,7 +74,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
         observerRef.current = null;
       }
     };
-  }, [threshold, rootMargin, triggerOnce, handleIntersection]);
+  }, [threshold, rootMargin, triggerOnce, handleIntersection, hasAnimated]);
 
   return { ref, isVisible };
 }

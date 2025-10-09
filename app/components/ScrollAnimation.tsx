@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { useScrollAnimation } from "@/lib/useScrollAnimation";
 
 interface ScrollAnimationProps {
@@ -36,21 +36,6 @@ export function ScrollAnimation({
     triggerOnce,
   });
 
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  // Prevent flash by not rendering until mounted
-  if (!isMounted) {
-    return (
-      <div className={`animate-hidden ${className}`} style={{ opacity: 0 }}>
-        {children}
-      </div>
-    );
-  }
-
   const animationClass = isVisible ? `animate-${animation}` : "animate-hidden";
 
   // Optimize duration for mobile devices
@@ -62,8 +47,6 @@ export function ScrollAnimation({
     animationDuration: `${optimizedDuration}s`,
     // Add will-change for better performance
     willChange: isVisible ? "auto" : "transform, opacity",
-    // Prevent layout shift on mobile
-    minHeight: isVisible ? "auto" : "1px",
   };
 
   return (
