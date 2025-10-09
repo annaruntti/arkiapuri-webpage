@@ -7,6 +7,41 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Ensure navigation stays fixed */
+nav {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 50 !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+  will-change: auto !important;
+}
+
+/* Mobile navigation specific fixes */
+@media (max-width: 768px) {
+  nav {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 50 !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+    will-change: auto !important;
+    /* Ensure mobile nav stays in place */
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+  }
+
+  /* Prevent mobile nav from being affected by transforms */
+  nav * {
+    transform: none !important;
+    -webkit-transform: none !important;
+  }
+}
+
 /* Fix mobile viewport and prevent white space under footer */
 html {
   height: 100%;
@@ -24,6 +59,8 @@ body {
   /* Prevent mobile scrolling issues */
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
+  /* Add padding for fixed navigation */
+  padding-top: 80px;
 }
 
 /* Hidden state for scroll animations */
@@ -352,10 +389,17 @@ body {
     font-size: 16px;
   }
 
-  /* Additional mobile optimizations */
-  * {
+  /* Additional mobile optimizations - exclude navigation */
+  *:not(nav):not(nav *):not(.md\\:hidden):not(.md\\:flex) {
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
+  }
+
+  /* Ensure mobile navigation container stays fixed */
+  .md\\:hidden {
+    position: relative !important;
+    transform: none !important;
+    -webkit-transform: none !important;
   }
 
   /* Prevent image resizing during animations - only for cover images */

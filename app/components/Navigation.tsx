@@ -27,7 +27,10 @@ export function Navigation({ pages }: NavigationProps) {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm">
+    <nav
+      className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm transition-all duration-300"
+      style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50 }}
+    >
       <div className="container mx-auto px-5">
         {/* Mobile: Stacked layout */}
         <div className="md:hidden">
