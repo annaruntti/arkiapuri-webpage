@@ -114,7 +114,7 @@ function HeroPost({
 }) {
   return (
     <section>
-      <ScrollAnimation animation="scale-in" delay={0.2}>
+      <ScrollAnimation animation="fade-in-up" delay={0.2}>
         <div className="mb-8 md:mb-16 group">
           <CoverImage
             title={title}

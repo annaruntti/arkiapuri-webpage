@@ -358,19 +358,59 @@ body {
     transform: translateZ(0);
   }
 
-  /* Prevent image resizing during animations */
-  img {
+  /* Prevent image resizing during animations - only for cover images */
+  .cover-image img,
+  .aspect-video img,
+  .relative img {
     max-width: 100%;
     height: auto;
     object-fit: cover;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    /* Prevent image flashing */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    /* Ensure stable dimensions for cover images only */
+    min-height: 200px;
+    width: 100%;
+  }
+
+  /* General image styles for all other images */
+  img {
+    max-width: 100%;
+    height: auto;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Ensure avatars and small images are not affected by cover image styles */
+  .w-12 img,
+  .h-12 img,
+  .rounded-full img {
+    min-height: auto !important;
+    width: auto !important;
+    object-fit: cover;
   }
 
   /* Ensure smooth animations without layout shifts */
+  .animate-fade-in-up img,
   .animate-scale-in img {
     transform-origin: center;
     will-change: transform;
+    /* Prevent size changes during animation */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+
+  /* Fix Next.js Image component flashing */
+  [data-nimg] {
+    opacity: 1 !important;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Prevent hover effects during animations */
+  .animate-hidden * {
+    pointer-events: none;
   }
 
   /* Prevent flash of unstyled content - use opacity instead of visibility */

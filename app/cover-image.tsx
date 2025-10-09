@@ -22,16 +22,25 @@ export default function CoverImage({
       priority
       width={2000}
       height={1000}
-      className={cn("shadow-small", {
+      className={cn("shadow-small w-full h-auto", {
         "hover:shadow-medium hover:scale-105 transition-all duration-300 ease-out":
           slug,
       })}
       src={url}
+      style={{
+        objectFit: "cover",
+        maxWidth: "100%",
+        height: "auto",
+        minHeight: "200px",
+      }}
     />
   );
 
   return (
-    <div className="sm:mx-0">
+    <div
+      className="sm:mx-0 relative overflow-hidden cover-image"
+      style={{ minHeight: "200px" }}
+    >
       {slug ? (
         <Link href={`/posts/${slug}`} aria-label={title}>
           {image}
