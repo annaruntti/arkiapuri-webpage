@@ -4,6 +4,7 @@ import { Button } from "./components/Button";
 import { Navigation } from "./components/Navigation";
 import { getAllPages } from "@/lib/api";
 import { draftMode } from "next/headers";
+import Script from "next/script"; // 🔹 Lisää tämä
 
 export const metadata = {
   title: `Arkiapurin esittely`,
@@ -32,6 +33,30 @@ export default async function RootLayout({
 
   return (
     <html lang="fi" className={firaSans.variable}>
+      <head>
+        {/* Cookiebot */}
+        <Script
+          id="Cookiebot"
+          src="https://consent.cookiebot.com/uc.js"
+          data-cbid="98d476d5-d07c-47f2-ad03-6b94d5f948dc"
+          type="text/javascript"
+          async
+        />
+
+        {/* Google Analytics */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-4V2B47HVMN"
+        />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-4V2B47HVMN');
+          `}
+        </Script>
+      </head>
       <body className="min-h-screen flex flex-col">
         <Navigation pages={allPages} />
         {children}
