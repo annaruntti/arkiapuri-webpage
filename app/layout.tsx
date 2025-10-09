@@ -4,7 +4,7 @@ import { Button } from "./components/Button";
 import { Navigation } from "./components/Navigation";
 import { getAllPages } from "@/lib/api";
 import { draftMode } from "next/headers";
-import Script from "next/script"; // 🔹 Lisää tämä
+import Script from "next/script";
 
 export const metadata = {
   title: `Arkiapurin esittely`,
@@ -35,29 +35,35 @@ export default async function RootLayout({
     <html lang="fi" className={firaSans.variable}>
       <head>
         {/* Cookiebot */}
-        <Script
-          id="Cookiebot"
-          src="https://consent.cookiebot.com/uc.js"
-          data-cbid="98d476d5-d07c-47f2-ad03-6b94d5f948dc"
-          data-blockingmode="auto"
-          data-language="fi"
-          type="text/javascript"
-          async
-        />
+        {/* {process.env.NEXT_PUBLIC_COOKIEBOT_ID && (
+          <Script
+            id="Cookiebot"
+            src="https://consent.cookiebot.com/uc.js"
+            data-cbid={process.env.NEXT_PUBLIC_COOKIEBOT_ID}
+            data-blockingmode="auto"
+            data-language="fi"
+            type="text/javascript"
+            async
+          />
+        )} */}
 
         {/* Google Analytics */}
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-4V2B47HVMN"
-        />
-        <Script id="google-analytics">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-4V2B47HVMN');
-          `}
-        </Script>
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <Script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+            />
+            <Script id="google-analytics">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+              `}
+            </Script>
+          </>
+        )}
       </head>
       <body className="min-h-screen flex flex-col">
         <Navigation pages={allPages} />
