@@ -7,6 +7,18 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Fix mobile viewport and prevent white space under footer */
+html {
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
+}
+
 /* Hidden state for scroll animations */
 .animate-hidden {
   opacity: 0;

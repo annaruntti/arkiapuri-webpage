@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <>
       <Header pageTitle={page.title} coverImage={page.coverImage} />
-      <main className="flex-grow">
+      <main className="flex-1">
         <div className="container mx-auto px-5 py-8">
           <div className="max-w-3xl mx-auto">
             {page.introduction && (

@@ -19,11 +19,11 @@ export function Button({
 
   const variantStyles = {
     primary:
-      "bg-primary text-black hover:bg-primary-dark shadow-md rounded-[25px] py-[10px] px-[16px] my-[10px]",
+      "bg-primary text-black hover:bg-primary-dark shadow-md rounded-[25px] py-[10px] px-[16px] my-[7px]",
     secondary:
-      "bg-secondary text-black hover:bg-secondary-dark shadow-md rounded-[25px] py-[10px] px-[16px] my-[10px]",
+      "bg-secondary text-black hover:bg-secondary-dark shadow-md rounded-[25px] py-[10px] px-[16px] my-[7px]",
     tertiary:
-      "bg-tertiary text-black hover:bg-tertiary-dark shadow-md rounded-[25px] py-[10px] px-[16px] my-[10px]",
+      "bg-tertiary text-black hover:bg-tertiary-dark shadow-md rounded-[25px] py-[10px] px-[16px] my-[7px]",
   };
 
   return (

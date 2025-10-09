@@ -53,31 +53,30 @@ function YouTubeEmbed({ content }: { content: any }) {
   if (!videoId) return <p>Invalid YouTube URL</p>;
 
   return (
-    <ScrollAnimation animation="scale-in" delay={0.2}>
-      <div
-        className="mx-auto overflow-hidden rounded-lg relative w-full max-w-sm md:w-80 youtube-container hover-lift"
-        style={{ height: "650px" }}
-      >
-        <iframe
-          src={`https://www.youtube.com/embed/${videoId}?controls=1&modestbranding=1&rel=0&showinfo=0`}
-          title="Arkiapuri esittelyvideo"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="rounded-lg youtube-embed"
-          role="application"
-          aria-label="Arkiapuri esittelyvideo"
-          style={{
-            width: "250%",
-            height: "745px",
-            position: "absolute",
-            top: "-42px",
-            left: "-75%",
-            border: "none",
-          }}
-        ></iframe>
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
+    <div
+      className="mx-auto overflow-hidden rounded-lg relative w-full max-w-sm md:w-80 youtube-container"
+      style={{ height: "650px" }}
+    >
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}?controls=1&modestbranding=1&rel=0&showinfo=0`}
+        title="Arkiapuri esittelyvideo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        className="rounded-lg youtube-embed"
+        role="application"
+        aria-label="Arkiapuri esittelyvideo"
+        style={{
+          width: "250%",
+          height: "745px",
+          position: "absolute",
+          top: "-42px",
+          left: "-75%",
+          border: "none",
+        }}
+      ></iframe>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
           @media (min-width: 769px) {
             .youtube-embed {
               width: 320px !important;
@@ -91,10 +90,9 @@ function YouTubeEmbed({ content }: { content: any }) {
             }
           }
         `,
-          }}
-        />
-      </div>
-    </ScrollAnimation>
+        }}
+      />
+    </div>
   );
 }
 
@@ -178,7 +176,7 @@ export default async function Home() {
   return (
     <>
       <Header frontPage={frontPage} />
-      <main className="flex-grow">
+      <main className="flex-1">
         <ScrollAnimation animation="fade-in" delay={0.5} duration={2.0}>
           <div className="container mx-auto px-5 pt-12 pb-10">
             <div className="max-w-3xl mx-auto">
@@ -194,7 +192,7 @@ export default async function Home() {
 
         {/* Two-column section: Text left, Video right */}
         {(frontPage.leftTextColumn || frontPage.rightVideoColumn) && (
-          <ScrollAnimation animation="fade-in-up" delay={0.2}>
+          <ScrollAnimation animation="fade-in" delay={0.3}>
             <section
               className="py-14 mb-16"
               style={{ backgroundColor: "#eeeeec" }}
@@ -202,26 +200,20 @@ export default async function Home() {
               <div className="container mx-auto px-5">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                   {/* Left column - Text content */}
-                  <ScrollAnimation animation="slide-in-left" delay={0.3}>
-                    <div className="prose prose-lg">
-                      {frontPage.leftTextColumn && (
-                        <div className="text-lg leading-relaxed whitespace-pre-line">
-                          {frontPage.leftTextColumn}
-                        </div>
-                      )}
-                    </div>
-                  </ScrollAnimation>
+                  <div className="prose prose-lg">
+                    {frontPage.leftTextColumn && (
+                      <div className="text-lg leading-relaxed whitespace-pre-line">
+                        {frontPage.leftTextColumn}
+                      </div>
+                    )}
+                  </div>
 
                   {/* Right column - YouTube video */}
-                  <ScrollAnimation animation="slide-in-right" delay={0.4}>
-                    <div>
-                      {frontPage.rightVideoColumn && (
-                        <YouTubeEmbed
-                          content={frontPage.rightVideoColumn.json}
-                        />
-                      )}
-                    </div>
-                  </ScrollAnimation>
+                  <div className="flex justify-center lg:justify-end">
+                    {frontPage.rightVideoColumn && (
+                      <YouTubeEmbed content={frontPage.rightVideoColumn.json} />
+                    )}
+                  </div>
                 </div>
               </div>
             </section>

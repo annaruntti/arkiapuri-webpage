@@ -41,7 +41,7 @@ export default async function PostPage({ params }: PageProps) {
 
   return (
     <>
-      <main className="flex-grow">
+      <main className="flex-1">
         <div className="container mx-auto px-5 py-8">
           <div className="md:mb-6">
             {post.excerpt && (
