@@ -54,7 +54,7 @@ export function Header({
             />
           </div>
         )}
-        <HeaderContent>
+        <HeaderContent isFrontPage={false}>
           <ScrollAnimation animation="fade-in" delay={0.3}>
             <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter leading-tight">
               {postTitle}
@@ -80,7 +80,7 @@ export function Header({
             />
           </div>
         )}
-        <HeaderContent>
+        <HeaderContent isFrontPage={false}>
           <ScrollAnimation animation="fade-in" delay={0.3}>
             <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter leading-tight">
               {pageTitle}

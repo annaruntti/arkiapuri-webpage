@@ -223,16 +223,14 @@ export default async function Home() {
         <ScrollAnimation animation="fade-in-up" delay={0.1}>
           <section className="mb-8">
             <div className="container mx-auto px-5">
-              <ScrollAnimation animation="bounce-in" delay={0.2}>
-                <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
-                  <Link
-                    href="/artikkelit"
-                    className="hover:text-primary transition-colors hover-scale"
-                  >
-                    Arkiapuri-blogi
-                  </Link>
-                </h2>
-              </ScrollAnimation>
+              <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
+                <Link
+                  href="/artikkelit"
+                  className="hover:text-primary transition-colors hover-scale"
+                >
+                  Arkiapuri-blogi
+                </Link>
+              </h2>
 
               {heroPost && (
                 <HeroPost
