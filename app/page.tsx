@@ -113,48 +113,46 @@ function HeroPost({
   slug: string;
 }) {
   return (
-    <ScrollAnimation animation="fade-in-up" delay={0.1}>
-      <section>
-        <ScrollAnimation animation="scale-in" delay={0.2}>
-          <div className="mb-8 md:mb-16 group">
-            <CoverImage
-              title={title}
-              slug={slug}
-              url={heroImage.url}
-              description={heroImage.description}
-            />
+    <section>
+      <ScrollAnimation animation="scale-in" delay={0.2}>
+        <div className="mb-8 md:mb-16 group">
+          <CoverImage
+            title={title}
+            slug={slug}
+            url={heroImage.url}
+            description={heroImage.description}
+          />
+        </div>
+      </ScrollAnimation>
+      <div className="md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28">
+        <ScrollAnimation animation="slide-in-left" delay={0.3}>
+          <div>
+            <h3 className="mb-4 text-2xl lg:text-4xl leading-tight">
+              <Link
+                href={`/posts/${slug}`}
+                className="hover:text-primary transition-colors hover-scale"
+              >
+                {title}
+              </Link>
+            </h3>
+            <div className="mb-4 md:mb-0 text-lg">
+              <Date dateString={date} />
+            </div>
           </div>
         </ScrollAnimation>
-        <div className="md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28">
-          <ScrollAnimation animation="slide-in-left" delay={0.3}>
-            <div>
-              <h3 className="mb-4 text-2xl lg:text-4xl leading-tight">
-                <Link
-                  href={`/posts/${slug}`}
-                  className="hover:text-primary transition-colors hover-scale"
-                >
-                  {title}
-                </Link>
-              </h3>
-              <div className="mb-4 md:mb-0 text-lg">
-                <Date dateString={date} />
-              </div>
-            </div>
-          </ScrollAnimation>
-          <ScrollAnimation animation="slide-in-right" delay={0.4}>
-            <div>
-              <p className="text-lg leading-relaxed mb-4">"{excerpt}"</p>
-              {author && (
-                <Avatar
-                  name={author.name}
-                  profilePicture={author.profilePicture}
-                />
-              )}
-            </div>
-          </ScrollAnimation>
-        </div>
-      </section>
-    </ScrollAnimation>
+        <ScrollAnimation animation="slide-in-right" delay={0.4}>
+          <div>
+            <p className="text-lg leading-relaxed mb-4">"{excerpt}"</p>
+            {author && (
+              <Avatar
+                name={author.name}
+                profilePicture={author.profilePicture}
+              />
+            )}
+          </div>
+        </ScrollAnimation>
+      </div>
+    </section>
   );
 }
 
@@ -221,9 +219,9 @@ export default async function Home() {
           </ScrollAnimation>
         )}
 
-        <ScrollAnimation animation="fade-in-up" delay={0.1}>
-          <section className="mb-8">
-            <div className="container mx-auto px-5">
+        <section className="mb-8">
+          <div className="container mx-auto px-5">
+            <ScrollAnimation animation="fade-in-up" delay={0.1}>
               <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
                 <Link
                   href="/artikkelit"
@@ -232,21 +230,21 @@ export default async function Home() {
                   Arkiapuri-blogi
                 </Link>
               </h2>
+            </ScrollAnimation>
 
-              {heroPost && (
-                <HeroPost
-                  title={heroPost.title}
-                  heroImage={heroPost.coverImage}
-                  date={heroPost.date}
-                  author={heroPost.author}
-                  slug={heroPost.slug}
-                  excerpt={heroPost.excerpt}
-                />
-              )}
-              {morePosts.length > 0 && <MoreStories morePosts={morePosts} />}
-            </div>
-          </section>
-        </ScrollAnimation>
+            {heroPost && (
+              <HeroPost
+                title={heroPost.title}
+                heroImage={heroPost.coverImage}
+                date={heroPost.date}
+                author={heroPost.author}
+                slug={heroPost.slug}
+                excerpt={heroPost.excerpt}
+              />
+            )}
+            {morePosts.length > 0 && <MoreStories morePosts={morePosts} />}
+          </div>
+        </section>
       </main>
     </>
   );

@@ -358,6 +358,21 @@ body {
     transform: translateZ(0);
   }
 
+  /* Prevent image resizing during animations */
+  img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Ensure smooth animations without layout shifts */
+  .animate-scale-in img {
+    transform-origin: center;
+    will-change: transform;
+  }
+
   /* Prevent flash of unstyled content - use opacity instead of visibility */
   .animate-hidden {
     opacity: 0;
