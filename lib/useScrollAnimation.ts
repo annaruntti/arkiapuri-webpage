@@ -22,8 +22,9 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
     const element = ref.current;
     if (!element) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
+    // Use requestAnimationFrame to ensure smooth performance
+    const handleIntersection = ([entry]: IntersectionObserverEntry[]) => {
+      requestAnimationFrame(() => {
         if (entry.isIntersecting && !isVisible) {
           setIsVisible(true);
           if (triggerOnce) {
@@ -32,19 +33,20 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
         } else if (!triggerOnce && !entry.isIntersecting) {
           setIsVisible(false);
         }
-      },
-      {
-        threshold,
-        rootMargin,
-      }
-    );
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, {
+      threshold,
+      rootMargin,
+    });
 
     observer.observe(element);
 
     return () => {
       observer.unobserve(element);
     };
-  }, [threshold, rootMargin, triggerOnce, isVisible]);
+  }, [threshold, rootMargin, triggerOnce]);
 
   return { ref, isVisible };
 }

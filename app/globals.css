@@ -12,11 +12,18 @@ html {
   height: 100%;
   min-height: 100vh;
   min-height: 100dvh; /* Dynamic viewport height for mobile */
+  /* Prevent mobile zoom and layout shifts */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   min-height: 100vh;
   min-height: 100dvh; /* Dynamic viewport height for mobile */
+  /* Prevent mobile scrolling issues */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 /* Hidden state for scroll animations */
@@ -284,6 +291,54 @@ body {
 *:focus-visible {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
+}
+
+/* Mobile-specific fixes for animation jumping */
+@media (max-width: 768px) {
+  /* Prevent layout shifts during animations */
+  .animate-hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: none;
+    will-change: transform, opacity;
+  }
+
+  /* Optimize animations for mobile */
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-slide-in-left,
+  .animate-slide-in-right,
+  .animate-scale-in,
+  .animate-bounce-in {
+    animation-duration: 1.2s !important;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    will-change: transform, opacity;
+  }
+
+  /* Prevent reflow during scroll */
+  [data-animated="true"] {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  /* Reduce animation complexity on mobile */
+  .animate-bounce-in {
+    animation: fade-in-up 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  /* Smooth scrolling for mobile */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent zoom on input focus */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }
 
 /* Reduced motion support */

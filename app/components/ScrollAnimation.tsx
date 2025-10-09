@@ -37,9 +37,16 @@ export function ScrollAnimation({
   });
 
   const animationClass = isVisible ? `animate-${animation}` : "animate-hidden";
+
+  // Optimize duration for mobile devices
+  const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+  const optimizedDuration = isMobile ? Math.min(duration, 1.2) : duration;
+
   const style = {
     animationDelay: `${delay}s`,
-    animationDuration: `${duration}s`,
+    animationDuration: `${optimizedDuration}s`,
+    // Add will-change for better performance
+    willChange: isVisible ? "auto" : "transform, opacity",
   };
 
   return (

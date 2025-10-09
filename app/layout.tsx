@@ -8,6 +8,12 @@ import { draftMode } from "next/headers";
 export const metadata = {
   title: `Arkiapurin esittely`,
   description: `Täältä voit lukea Arkiapuri-sovelluksen esittelyn ja käyttöohjeet.`,
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
 };
 
 const firaSans = Fira_Sans({
