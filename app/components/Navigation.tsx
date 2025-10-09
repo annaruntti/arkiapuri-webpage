@@ -114,7 +114,7 @@ export function Navigation({ pages }: NavigationProps) {
             />
             <span>Arkiapuri</span>
           </Link>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 space-y-4">
             <Link
               href="/artikkelit"
               className={`text-gray-600 hover:text-primary transition-colors text-base font-semibold py-2 md:py-4 relative ${

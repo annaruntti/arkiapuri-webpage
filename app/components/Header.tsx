@@ -42,7 +42,7 @@ export function Header({
     if (!postTitle) return null;
 
     return (
-      <header className="relative min-h-screen">
+      <header className="relative" style={{ minHeight: "92vh" }}>
         {postHeroImage && (
           <div className="absolute inset-0" aria-label="Hero image">
             <Image
@@ -95,7 +95,7 @@ export function Header({
   if (!frontPage) return null;
 
   return (
-    <header className="relative min-h-screen">
+    <header className="relative" style={{ minHeight: "92vh" }}>
       {frontPage.heroImage && (
         <div className="absolute inset-0" aria-label="Hero image">
           <Image
