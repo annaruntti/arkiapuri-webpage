@@ -24,6 +24,7 @@ interface HeaderProps {
     url: string;
     description?: string;
   };
+  objectPosition?: string;
 }
 
 export function Header({
@@ -32,6 +33,7 @@ export function Header({
   postHeroImage,
   pageTitle,
   coverImage,
+  objectPosition = "center",
 }: HeaderProps) {
   const pathname = usePathname();
   const isPostPage = pathname?.startsWith("/posts/");
@@ -81,7 +83,10 @@ export function Header({
               src={coverImage.url}
               alt={coverImage.description || "Sivun kansikuva"}
               fill
-              className="object-cover"
+              style={{ 
+                objectPosition: objectPosition,
+                objectFit: 'cover',
+              }}
               priority
             />
           </div>

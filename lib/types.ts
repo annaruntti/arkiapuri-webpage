@@ -76,12 +76,82 @@ export interface ContentfulPage {
   rightVideoColumn?: ContentfulContent;
 }
 
+export interface ContentfulIngredient {
+  sys: {
+    id: string;
+  };
+  name: string;
+  image?: {
+    url: string;
+    description?: string;
+  };
+  quantity?: string;
+  unit?: string;
+}
+
+export interface ContentfulRecipe {
+  sys?: {
+    id: string;
+  };
+  slug: string;
+  title: string;
+  category?: string;
+  mealType?: string;
+  difficultyLevel?: string;
+  preparationTime?: string;
+  heroImage?: {
+    url: string;
+    description?: string;
+  };
+  imagesCollection?: {
+    items: {
+      url: string;
+      description?: string;
+    }[];
+  };
+  steps?: string[];
+  instructions?: {
+    json: any;
+    links: {
+      assets: {
+        block: {
+          sys: {
+            id: string;
+          };
+          url: string;
+          description: string;
+        }[];
+      };
+    };
+  };
+  ingredientsCollection?: {
+    items: ContentfulIngredient[];
+  };
+  preparationSteps?: {
+    json: any;
+    links: {
+      assets: {
+        block: {
+          sys: {
+            id: string;
+          };
+          url: string;
+          description: string;
+        }[];
+      };
+    };
+  };
+}
+
 export interface ContentfulResponse<T> {
   data: {
     postCollection?: {
       items: T[];
     };
     pageCollection?: {
+      items: T[];
+    };
+    recipesCollection?: {
       items: T[];
     };
   };

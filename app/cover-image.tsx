@@ -10,11 +10,13 @@ export default function CoverImage({
   url,
   slug,
   description,
+  objectPosition = "center",
 }: {
   title: string;
   url: string;
   slug?: string;
   description?: string;
+  objectPosition?: string;
 }) {
   const image = (
     <ContentfulImage
@@ -29,6 +31,7 @@ export default function CoverImage({
       src={url}
       style={{
         objectFit: "cover",
+        objectPosition: objectPosition,
         maxWidth: "100%",
         height: "auto",
         minHeight: "200px",

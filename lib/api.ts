@@ -1,4 +1,9 @@
-import { ContentfulPost, ContentfulPage, ContentfulResponse } from "./types";
+import {
+  ContentfulPost,
+  ContentfulPage,
+  ContentfulRecipe,
+  ContentfulResponse,
+} from "./types";
 
 /* Post GraphQL fields */
 
@@ -24,6 +29,98 @@ const POST_GRAPHQL_FIELDS = `
   }
   excerpt
   content {
+    json
+    links {
+      assets {
+        block {
+          sys {
+            id
+          }
+          url
+          description
+        }
+      }
+    }
+  }
+`;
+
+/* Recipe GraphQL fields */
+
+const RECIPE_GRAPHQL_FIELDS = `
+  sys {
+    id
+  }
+  title
+  category
+  mealType
+  difficultyLevel
+  preparationTime
+  heroImage {
+    url
+    description
+  }
+  steps
+  instructions {
+    json
+  }
+  preparationSteps {
+    json
+  }
+`;
+
+/* Recipe GraphQL fields with full details */
+
+const RECIPE_GRAPHQL_FIELDS_FULL = `
+  sys {
+    id
+  }
+  title
+  category
+  mealType
+  difficultyLevel
+  preparationTime
+  heroImage {
+    url
+    description
+  }
+  imagesCollection(limit: 10) {
+    items {
+      url
+      description
+    }
+  }
+  steps
+  instructions {
+    json
+    links {
+      assets {
+        block {
+          sys {
+            id
+          }
+          url
+          description
+        }
+      }
+    }
+  }
+  ingredientsCollection(limit: 20) {
+    items {
+      ... on Ingredients {
+        sys {
+          id
+        }
+        name
+        image {
+          url
+          description
+        }
+        quantity
+        unit
+      }
+    }
+  }
+  preparationSteps {
     json
     links {
       assets {
@@ -229,4 +326,121 @@ export async function getAllPages(
   );
 
   return entries?.data?.pageCollection?.items || [];
+}
+
+/* Recipe functions */
+
+function extractRecipe(
+  fetchResponse: ContentfulResponse<ContentfulRecipe>
+): ContentfulRecipe | null {
+  const item = fetchResponse?.data?.recipesCollection?.items?.[0] || null;
+  if (!item) return null;
+  // Generate slug from title if not present
+  return {
+    ...item,
+    slug:
+      item.slug ||
+      item.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, ""),
+  };
+}
+
+function extractRecipeEntries(
+  fetchResponse: ContentfulResponse<ContentfulRecipe>
+): ContentfulRecipe[] {
+  const items = fetchResponse?.data?.recipesCollection?.items || [];
+  // Generate slug from title if not present
+  return items.map((item) => ({
+    ...item,
+    slug:
+      item.slug ||
+      item.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, ""),
+  }));
+}
+
+export async function getAllRecipes(
+  isDraftMode: boolean
+): Promise<ContentfulRecipe[]> {
+  try {
+    const entries = await fetchGraphQL<ContentfulRecipe>(
+      `query {
+        recipesCollection(limit: 50, preview: ${
+          isDraftMode ? "true" : "false"
+        }) {
+          items {
+            ${RECIPE_GRAPHQL_FIELDS}
+          }
+        }
+      }`,
+      isDraftMode
+    );
+    console.log("Contentful recipes response:", entries);
+    return extractRecipeEntries(entries);
+  } catch (error) {
+    console.error("Error fetching recipes:", error);
+    return [];
+  }
+}
+
+export async function getRecipeAndMoreRecipes(
+  slug: string,
+  preview: boolean
+): Promise<{
+  recipe: ContentfulRecipe | null;
+  moreRecipes: ContentfulRecipe[];
+}> {
+  // Fetch all recipes and find by generated slug
+  const allRecipes = await getAllRecipes(preview);
+  const recipe = allRecipes.find((r) => r.slug === slug) || null;
+  const moreRecipes = allRecipes.filter((r) => r.slug !== slug).slice(0, 3);
+
+  // If we found a recipe, fetch its full details
+  if (recipe && recipe.sys?.id) {
+    const entry = await fetchGraphQL<ContentfulRecipe>(
+      `query {
+        recipes(id: "${recipe.sys.id}", preview: ${
+        preview ? "true" : "false"
+      }) {
+          ${RECIPE_GRAPHQL_FIELDS_FULL}
+        }
+      }`,
+      preview
+    );
+    const fullRecipe = entry?.data
+      ? {
+          ...(entry.data as any).recipes,
+          slug: recipe.slug,
+        }
+      : recipe;
+    return {
+      recipe: fullRecipe,
+      moreRecipes,
+    };
+  }
+
+  return {
+    recipe,
+    moreRecipes,
+  };
+}
+
+export async function getPreviewRecipeBySlug(
+  slug: string | null
+): Promise<ContentfulRecipe | null> {
+  const entry = await fetchGraphQL<ContentfulRecipe>(
+    `query {
+      recipesCollection(where: { slug: "${slug}" }, preview: true, limit: 1) {
+        items {
+          ${RECIPE_GRAPHQL_FIELDS}
+        }
+      }
+    }`,
+    true
+  );
+  return extractRecipe(entry);
 }

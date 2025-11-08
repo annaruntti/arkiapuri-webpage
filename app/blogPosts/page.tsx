@@ -66,7 +66,7 @@ export default async function ArtikkelitPage() {
       <Header
         pageTitle="Artikkelit"
         coverImage={{
-          url: "https://images.ctfassets.net/2pij69ehhf4n/4R7zfMSrOPfokg9WPGYbhk/4b8e4f5fa1d5d3c4028cffdeee59ad2c/Untitled_design.png",
+          url: "https://images.ctfassets.net/2pij69ehhf4n/7tNL9fyMcfXfQmsUvIxgze/50e2d0a7728d68f556717f9874a3c8f8/pexels-picjumbo-com-55570-196649.jpg",
           description: "Artikkelit header image",
         }}
       />
