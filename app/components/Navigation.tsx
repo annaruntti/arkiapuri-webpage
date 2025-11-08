@@ -76,7 +76,7 @@ export function Navigation({ pages }: NavigationProps) {
               <Link
                 href="/artikkelit"
                 className={`text-gray-600 hover:text-primary transition-colors text-sm font-semibold py-2 md:py-4 ${
-                  pathname === "/artikkelit"
+                  pathname?.startsWith("/artikkelit")
                     ? "border-b-2 border-primary text-primary"
                     : ""
                 }`}
@@ -121,7 +121,7 @@ export function Navigation({ pages }: NavigationProps) {
             <Link
               href="/artikkelit"
               className={`text-gray-600 hover:text-primary transition-colors text-base font-semibold py-3 relative ${
-                pathname === "/artikkelit"
+                pathname?.startsWith("/artikkelit")
                   ? "text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
                   : ""
               }`}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { draftMode } from "next/headers";
+import Image from "next/image";
 
 import Date from "./date";
 import CoverImage from "./cover-image";
@@ -10,6 +11,7 @@ import { ScrollAnimation } from "./components/ScrollAnimation";
 
 import { getAllPages } from "@/lib/api";
 import { getAllPosts } from "@/lib/api";
+import { getAllRecipes } from "@/lib/api";
 import { Header } from "./components/Header";
 
 // Utility function to extract YouTube video ID from URL
@@ -160,9 +162,11 @@ export default async function Home() {
   const { isEnabled } = await draftMode();
   const allPages = await getAllPages(isEnabled);
   const allPosts = await getAllPosts(isEnabled);
+  const allRecipes = await getAllRecipes(isEnabled);
   const frontPage = allPages.find((page) => page.slug === "etusivu");
   const heroPost = allPosts[0];
   const morePosts = allPosts.slice(1);
+  const featuredRecipes = allRecipes.slice(0, 3);
 
   if (!frontPage) {
     return (
@@ -177,16 +181,53 @@ export default async function Home() {
       <Header frontPage={frontPage} />
       <main className="flex-1">
         <ScrollAnimation animation="fade-in" delay={0.5} duration={2.0}>
-          <div className="container mx-auto px-5 pt-12 pb-10">
-            <div className="max-w-3xl mx-auto">
-              <div className="prose prose-xl">
-                <Markdown
-                  content={frontPage.content.json}
-                  assets={frontPage.content.links?.assets?.block || []}
-                />
+          <section>
+            {/* Image section with purple bg on mobile */}
+            <div className="bg-purple-50 lg:bg-transparent">
+              <div className="container mx-auto px-5 pt-12">
+                <div className="max-w-6xl mx-auto">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start">
+                    {/* Left column - Image */}
+                    <div className="flex justify-center lg:justify-start">
+                      <div className="relative w-full max-w-md aspect-square overflow-hidden">
+                        <Image
+                          src="https://images.ctfassets.net/2pij69ehhf4n/7ghP18MRiuhZfmkJ5HtN1A/dc26c0533ffd53cada4f71460b5c724c/IMG_1277.PNG"
+                          alt="Arkiapuri"
+                          fill
+                          className="object-cover"
+                          priority
+                        />
+                      </div>
+                    </div>
+
+                    {/* Right column - Content on desktop only */}
+                    <div className="hidden lg:block lg:pt-4">
+                      <div className="prose prose-xl pl-12">
+                        <Markdown
+                          content={frontPage.content.json}
+                          assets={frontPage.content.links?.assets?.block || []}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+
+            {/* Content section with white bg on mobile */}
+            <div className="bg-white lg:hidden">
+              <div className="container mx-auto px-5 pb-12">
+                <div className="max-w-6xl mx-auto">
+                  <div className="prose prose-xl p-6">
+                    <Markdown
+                      content={frontPage.content.json}
+                      assets={frontPage.content.links?.assets?.block || []}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </ScrollAnimation>
 
         {/* Two-column section: Text left, Video right */}
@@ -245,6 +286,80 @@ export default async function Home() {
             {morePosts.length > 0 && <MoreStories morePosts={morePosts} />}
           </div>
         </section>
+
+        {/* Recipes Section */}
+        {featuredRecipes.length > 0 && (
+          <section className="mb-16 mt-16">
+            <div className="container mx-auto px-5">
+              <ScrollAnimation animation="fade-in-up" delay={0.1}>
+                <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
+                  <Link
+                    href="/artikkelit/reseptit"
+                    className="hover:text-primary transition-colors hover-scale"
+                  >
+                    Reseptit
+                  </Link>
+                </h2>
+              </ScrollAnimation>
+
+              <ScrollAnimation animation="fade-in-up" delay={0.2}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {featuredRecipes.map((recipe) => (
+                    <Link
+                      key={recipe.slug}
+                      href={`/artikkelit/reseptit/${recipe.slug}`}
+                      className="group"
+                    >
+                      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg hover:shadow-purple-100 hover:-translate-y-1 transition-all duration-300">
+                        {recipe.heroImage && (
+                          <div className="aspect-video relative">
+                            <CoverImage
+                              title={recipe.title}
+                              url={recipe.heroImage.url}
+                              description={recipe.heroImage.description}
+                              objectPosition="center top"
+                            />
+                          </div>
+                        )}
+                        <div className="p-6">
+                          <div className="flex gap-2 mb-3 flex-wrap">
+                            {recipe.category && (
+                              <span className="text-xs px-3 py-1 bg-purple-100 text-purple-700 rounded-full">
+                                {recipe.category}
+                              </span>
+                            )}
+                            {recipe.mealType && (
+                              <span className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full">
+                                {recipe.mealType}
+                              </span>
+                            )}
+                          </div>
+                          <h3 className="text-xl font-semibold mb-3 leading-tight group-hover:text-primary transition-colors">
+                            {recipe.title}
+                          </h3>
+                          <div className="flex gap-4 text-sm text-gray-600">
+                            {recipe.preparationTime && (
+                              <div className="flex items-center gap-1">
+                                <span>⏱️</span>
+                                <span>{recipe.preparationTime}</span>
+                              </div>
+                            )}
+                            {recipe.difficultyLevel && (
+                              <div className="flex items-center gap-1">
+                                <span>📊</span>
+                                <span>{recipe.difficultyLevel}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </ScrollAnimation>
+            </div>
+          </section>
+        )}
       </main>
     </>
   );
