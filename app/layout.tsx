@@ -80,7 +80,7 @@ export default async function RootLayout({
                 <p>
                   <a
                     href="mailto:tialaanna@gmail.com"
-                    className="text-purple-700 border-b-2 border-purple-700 hover:opacity-80 transition-opacity"
+                    className="text-primary border-b-2 border-primary hover:opacity-80 transition-opacity"
                   >
                     Ota yhteyttä sähköpostitse
                   </a>
