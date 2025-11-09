@@ -77,20 +77,14 @@ export default async function RootLayout({
                 </p>
               </div>
               <div className="flex flex-col md:flex-row items-center gap-0 md:gap-3">
-                <Button
-                  href="https://anna.tiala.fi/"
-                  variant="primary"
-                  className="w-full md:flex-1 whitespace-nowrap"
-                >
-                  Tutustu portfoliooni
-                </Button>
-                <Button
-                  href="https://github.com/annaruntti"
-                  variant="secondary"
-                  className="w-full md:flex-1"
-                >
-                  GitHub-profiilini
-                </Button>
+                <p>
+                  <a
+                    href="mailto:tialaanna@gmail.com"
+                    className="text-purple-700 border-b-2 border-purple-700 hover:opacity-80 transition-opacity"
+                  >
+                    Ota yhteyttä sähköpostitse
+                  </a>
+                </p>
               </div>
             </div>
           </div>
