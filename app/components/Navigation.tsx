@@ -74,14 +74,25 @@ export function Navigation({ pages }: NavigationProps) {
               style={{ height: "38px", padding: "0.5rem" }}
             >
               <Link
-                href="/artikkelit"
+                href="/artikkelit/blogi"
                 className={`text-gray-600 hover:text-primary transition-colors text-sm font-semibold py-2 md:py-4 ${
-                  pathname?.startsWith("/artikkelit")
+                  pathname?.startsWith("/artikkelit/blogi") ||
+                  pathname?.startsWith("/posts")
                     ? "border-b-2 border-primary text-primary"
                     : ""
                 }`}
               >
-                Artikkelit
+                Blogi
+              </Link>
+              <Link
+                href="/artikkelit/reseptit"
+                className={`text-gray-600 hover:text-primary transition-colors text-sm font-semibold py-2 md:py-4 ${
+                  pathname?.startsWith("/artikkelit/reseptit")
+                    ? "border-b-2 border-primary text-primary"
+                    : ""
+                }`}
+              >
+                Reseptit
               </Link>
               {pages
                 .filter((page) => page.slug !== "etusivu")
@@ -119,15 +130,27 @@ export function Navigation({ pages }: NavigationProps) {
           </Link>
           <div className="flex items-center space-x-4">
             <Link
-              href="/artikkelit"
+              href="/artikkelit/blogi"
               className={`text-gray-600 hover:text-primary transition-colors text-base font-semibold py-3 relative ${
-                pathname?.startsWith("/artikkelit")
+                pathname?.startsWith("/artikkelit/blogi") ||
+                pathname?.startsWith("/posts")
                   ? "text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
                   : ""
               }`}
               style={{ marginTop: 0, marginBottom: 0 }}
             >
-              Artikkelit
+              Blogi
+            </Link>
+            <Link
+              href="/artikkelit/reseptit"
+              className={`text-gray-600 hover:text-primary transition-colors text-base font-semibold py-3 relative ${
+                pathname?.startsWith("/artikkelit/reseptit")
+                  ? "text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
+                  : ""
+              }`}
+              style={{ marginTop: 0, marginBottom: 0 }}
+            >
+              Reseptit
             </Link>
             {pages
               .filter((page) => page.slug !== "etusivu")

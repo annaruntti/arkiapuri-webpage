@@ -263,10 +263,10 @@ export default async function Home() {
             <ScrollAnimation animation="fade-in-up" delay={0.1}>
               <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
                 <Link
-                  href="/artikkelit"
+                  href="/artikkelit/blogi"
                   className="hover:text-primary transition-colors hover-scale"
                 >
-                  Arkiapuri-blogi
+                  Blogi
                 </Link>
               </h2>
             </ScrollAnimation>
