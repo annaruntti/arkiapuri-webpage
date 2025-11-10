@@ -47,6 +47,18 @@ function MoreRecipes({ moreRecipes }: { moreRecipes: any[] }) {
               </div>
             )}
             <div className="p-6">
+              <div className="flex gap-2 mb-3 flex-wrap">
+                {recipe.category && (
+                  <span className="text-xs px-3 py-1 bg-purple-100 text-purple-700 rounded-full">
+                    {recipe.category}
+                  </span>
+                )}
+                {recipe.mealType && (
+                  <span className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full">
+                    {recipe.mealType}
+                  </span>
+                )}
+              </div>
               <h3 className="text-xl font-semibold mb-3 leading-tight">
                 <Link
                   href={`/artikkelit/reseptit/${recipe.slug}`}
@@ -55,8 +67,22 @@ function MoreRecipes({ moreRecipes }: { moreRecipes: any[] }) {
                   {recipe.title}
                 </Link>
               </h3>
+              <div className="flex gap-4 text-sm text-gray-600 mb-4">
+                {recipe.preparationTime && (
+                  <div className="flex items-center gap-1">
+                    <span>⏱️</span>
+                    <span>{recipe.preparationTime}</span>
+                  </div>
+                )}
+                {recipe.difficultyLevel && (
+                  <div className="flex items-center gap-1">
+                    <span>📊</span>
+                    <span>{recipe.difficultyLevel}</span>
+                  </div>
+                )}
+              </div>
               {recipe.steps && recipe.steps.length > 0 && (
-                <p className="text-gray-600 mb-4 leading-relaxed">
+                <p className="text-gray-600 leading-relaxed">
                   {recipe.steps.length} vaihetta
                 </p>
               )}
