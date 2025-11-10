@@ -5,6 +5,7 @@ import MoreStories from "../../more-stories";
 import Avatar from "../../avatar";
 import Date from "../../date";
 import CoverImage from "../../cover-image";
+import { ArticleSchema } from "../../components/ArticleSchema";
 
 import { Markdown } from "@/lib/markdown";
 import { getAllPosts, getPostAndMorePosts } from "@/lib/api";
@@ -17,6 +18,40 @@ export async function generateStaticParams() {
   return allPosts.map((post) => ({
     slug: post.slug,
   }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const resolvedParams = await params;
+  const { post } = await getPostAndMorePosts(resolvedParams.slug, false);
+
+  if (!post) {
+    return {
+      title: "Artikkelia ei löydy - Arkiapuri",
+    };
+  }
+
+  return {
+    title: `${post.title} - Arkiapuri Blogi`,
+    description: post.excerpt || `Lue lisää: ${post.title}`,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage?.url ? [post.coverImage.url] : [],
+      type: "article",
+      publishedTime: post.date,
+      authors: [post.author.name],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage?.url ? [post.coverImage.url] : [],
+    },
+  };
 }
 
 interface PageProps {
@@ -36,8 +71,11 @@ export default async function PostPage({ params }: PageProps) {
     notFound();
   }
 
+  const url = `https://arkiapuri.fi/posts/${resolvedParams.slug}`;
+
   return (
     <>
+      <ArticleSchema post={post} url={url} />
       <main className="flex-1">
         <div className="container mx-auto px-5 py-8">
           <div className="md:mb-6">

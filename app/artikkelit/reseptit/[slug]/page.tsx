@@ -5,6 +5,7 @@ import { Markdown } from "@/lib/markdown";
 import { getAllRecipes, getRecipeAndMoreRecipes } from "@/lib/api";
 import Script from "next/script";
 import { RecipeCard } from "../../../components/RecipeCard";
+import { RecipeSchema } from "../../../components/RecipeSchema";
 import Image from "next/image";
 
 export async function generateStaticParams() {
@@ -15,6 +16,48 @@ export async function generateStaticParams() {
   return allRecipes.map((recipe) => ({
     slug: recipe.slug,
   }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const resolvedParams = await params;
+  const { recipe } = await getRecipeAndMoreRecipes(resolvedParams.slug, false);
+
+  if (!recipe) {
+    return {
+      title: "Reseptiä ei löydy - Arkiapuri",
+    };
+  }
+
+  const ingredients = recipe.ingredientsCollection?.items
+    .map((i) => i.name)
+    .join(", ");
+
+  return {
+    title: `${recipe.title} - Arkiapuri Reseptit`,
+    description: ingredients
+      ? `${recipe.title} - Ainekset: ${ingredients.slice(0, 150)}...`
+      : `Herkullinen resepti: ${recipe.title}`,
+    openGraph: {
+      title: recipe.title,
+      description: `${recipe.category || "Resepti"} - ${
+        recipe.preparationTime || ""
+      }`,
+      images: recipe.heroImage?.url ? [recipe.heroImage.url] : [],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: recipe.title,
+      description: `${recipe.category || "Resepti"} - ${
+        recipe.preparationTime || ""
+      }`,
+      images: recipe.heroImage?.url ? [recipe.heroImage.url] : [],
+    },
+  };
 }
 
 interface PageProps {
@@ -65,6 +108,7 @@ export default async function RecipePage({ params }: PageProps) {
 
   return (
     <>
+      <RecipeSchema recipe={recipe} />
       <Script
         async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6513624758655536"
