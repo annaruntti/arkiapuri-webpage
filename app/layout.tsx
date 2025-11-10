@@ -71,7 +71,7 @@ export default async function RootLayout({
       <body className="min-h-screen flex flex-col">
         <Navigation pages={allPages} />
         {children}
-        <footer className="py-8" style={{ backgroundColor: "#eeeeec" }}>
+        <footer className="mt-auto py-8" style={{ backgroundColor: "#eeeeec" }}>
           <div className="container mx-auto px-5">
             <div className="flex flex-col lg:flex-row justify-between items-center">
               <div className="text-center lg:text-left mb-6 lg:mb-0">
