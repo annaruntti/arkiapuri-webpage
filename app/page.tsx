@@ -13,6 +13,7 @@ import { getAllPages } from "@/lib/api";
 import { getAllPosts } from "@/lib/api";
 import { getAllRecipes } from "@/lib/api";
 import { Header } from "./components/Header";
+import { RecipeCard } from "./components/RecipeCard";
 
 // Utility function to extract YouTube video ID from URL
 function getYouTubeVideoId(url: string): string | null {
@@ -305,58 +306,17 @@ export default async function Home() {
               <ScrollAnimation animation="fade-in-up" delay={0.2}>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {featuredRecipes.map((recipe) => (
-                    <div
+                    <RecipeCard
                       key={recipe.slug}
-                      className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg hover:shadow-purple-100 hover:-translate-y-1 transition-all duration-300 group"
-                    >
-                      {recipe.heroImage && (
-                        <div className="aspect-video relative">
-                          <CoverImage
-                            title={recipe.title}
-                            url={recipe.heroImage.url}
-                            description={recipe.heroImage.description}
-                            objectPosition="center top"
-                            href={`/artikkelit/reseptit/${recipe.slug}`}
-                          />
-                        </div>
-                      )}
-                      <div className="p-6">
-                        <div className="flex gap-2 mb-3 flex-wrap">
-                          {recipe.category && (
-                            <span className="text-xs px-3 py-1 bg-purple-100 text-purple-700 rounded-full">
-                              {recipe.category}
-                            </span>
-                          )}
-                          {recipe.mealType && (
-                            <span className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full">
-                              {recipe.mealType}
-                            </span>
-                          )}
-                        </div>
-                        <h3 className="text-xl font-semibold mb-3 leading-tight">
-                          <Link
-                            href={`/artikkelit/reseptit/${recipe.slug}`}
-                            className="hover:text-primary transition-colors"
-                          >
-                            {recipe.title}
-                          </Link>
-                        </h3>
-                        <div className="flex gap-4 text-sm text-gray-600">
-                          {recipe.preparationTime && (
-                            <div className="flex items-center gap-1">
-                              <span>⏱️</span>
-                              <span>{recipe.preparationTime}</span>
-                            </div>
-                          )}
-                          {recipe.difficultyLevel && (
-                            <div className="flex items-center gap-1">
-                              <span>📊</span>
-                              <span>{recipe.difficultyLevel}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                      title={recipe.title}
+                      heroImage={recipe.heroImage}
+                      slug={recipe.slug}
+                      steps={recipe.steps}
+                      category={recipe.category}
+                      mealType={recipe.mealType}
+                      difficultyLevel={recipe.difficultyLevel}
+                      preparationTime={recipe.preparationTime}
+                    />
                   ))}
                 </div>
               </ScrollAnimation>
