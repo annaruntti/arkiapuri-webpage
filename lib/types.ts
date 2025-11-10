@@ -110,6 +110,20 @@ export interface ContentfulRecipe {
     }[];
   };
   steps?: string[];
+  blogText?: {
+    json: any;
+    links: {
+      assets: {
+        block: {
+          sys: {
+            id: string;
+          };
+          url: string;
+          description: string;
+        }[];
+      };
+    };
+  };
   instructions?: {
     json: any;
     links: {

@@ -90,6 +90,20 @@ const RECIPE_GRAPHQL_FIELDS_FULL = `
     }
   }
   steps
+  blogText {
+    json
+    links {
+      assets {
+        block {
+          sys {
+            id
+          }
+          url
+          description
+        }
+      }
+    }
+  }
   instructions {
     json
     links {

@@ -130,6 +130,18 @@ export default async function RecipePage({ params }: PageProps) {
               )}
             </div>
 
+            {/* Blog Text Section */}
+            {recipe.blogText && (
+              <div className="mb-12">
+                <div className="prose max-w-none">
+                  <Markdown
+                    content={recipe.blogText.json}
+                    assets={recipe.blogText.links?.assets?.block || []}
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Ingredients Section */}
             {recipe.ingredientsCollection &&
               recipe.ingredientsCollection.items.length > 0 && (
