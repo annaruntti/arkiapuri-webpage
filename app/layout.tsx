@@ -34,6 +34,9 @@ export default async function RootLayout({
   return (
     <html lang="fi" className={firaSans.variable}>
       <head>
+        {/* Google AdSense Verification */}
+        <meta name="google-adsense-account" content="ca-pub-6513624758655536" />
+
         {/* Cookiebot */}
         {/* {process.env.NEXT_PUBLIC_COOKIEBOT_ID && (
           <Script
