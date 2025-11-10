@@ -14,7 +14,7 @@ export default {
       },
       colors: {
         primary: {
-          DEFAULT: "#7B6BC9", // Darker purple for better accessibility
+          DEFAULT: "#7B6BC9",
           dark: "#6B5AB0",
           light: "#9C86FC",
         },

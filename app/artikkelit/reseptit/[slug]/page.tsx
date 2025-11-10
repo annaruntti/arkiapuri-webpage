@@ -3,6 +3,7 @@ import CoverImage from "../../../cover-image";
 import { Markdown } from "@/lib/markdown";
 import { getAllRecipes, getRecipeAndMoreRecipes } from "@/lib/api";
 import Link from "next/link";
+import Script from "next/script";
 
 export async function generateStaticParams() {
   const allRecipes = await getAllRecipes(false);
@@ -39,9 +40,9 @@ function MoreRecipes({ moreRecipes }: { moreRecipes: any[] }) {
               <div className="aspect-video relative">
                 <CoverImage
                   title={recipe.title}
-                  slug={recipe.slug}
                   url={recipe.heroImage.url}
                   description={recipe.heroImage.description}
+                  href={`/artikkelit/reseptit/${recipe.slug}`}
                 />
               </div>
             )}
@@ -85,6 +86,12 @@ export default async function RecipePage({ params }: PageProps) {
 
   return (
     <>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6513624758655536"
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+      />
       <main className="flex-1" style={{ marginTop: "-33px" }}>
         {recipe.heroImage?.url && (
           <section className="w-full mb-8 md:mb-16">

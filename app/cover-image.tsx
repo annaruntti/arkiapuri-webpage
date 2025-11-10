@@ -11,12 +11,14 @@ export default function CoverImage({
   slug,
   description,
   objectPosition = "center",
+  href,
 }: {
   title: string;
   url: string;
   slug?: string;
   description?: string;
   objectPosition?: string;
+  href?: string;
 }) {
   const image = (
     <ContentfulImage
@@ -39,13 +41,15 @@ export default function CoverImage({
     />
   );
 
+  const linkHref = href || (slug ? `/posts/${slug}` : null);
+
   return (
     <div
       className="sm:mx-0 relative overflow-hidden cover-image"
       style={{ minHeight: "200px" }}
     >
-      {slug ? (
-        <Link href={`/posts/${slug}`} aria-label={title}>
+      {linkHref ? (
+        <Link href={linkHref} aria-label={title}>
           {image}
         </Link>
       ) : (

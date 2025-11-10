@@ -1,6 +1,7 @@
 import { Header } from "../components/Header";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 
 export const metadata = {
   title: "Artikkelit - Arkiapuri",
@@ -11,6 +12,12 @@ export const metadata = {
 export default function ArtikkelitPage() {
   return (
     <>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6513624758655536"
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+      />
       <Header
         pageTitle="Artikkelit"
         coverImage={{
