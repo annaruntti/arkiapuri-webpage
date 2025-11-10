@@ -1,4 +1,5 @@
 import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 
 import MoreStories from "../../more-stories";
 import Avatar from "../../avatar";
@@ -32,11 +33,7 @@ export default async function PostPage({ params }: PageProps) {
   );
 
   if (!post) {
-    return (
-      <div className="container mx-auto px-5">
-        <p>Ei vielä tätä kirjoituksia</p>
-      </div>
-    );
+    notFound();
   }
 
   return (

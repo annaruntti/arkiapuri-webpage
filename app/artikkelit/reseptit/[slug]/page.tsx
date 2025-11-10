@@ -1,4 +1,5 @@
 import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 import CoverImage from "../../../cover-image";
 import { Markdown } from "@/lib/markdown";
 import { getAllRecipes, getRecipeAndMoreRecipes } from "@/lib/api";
@@ -59,11 +60,7 @@ export default async function RecipePage({ params }: PageProps) {
   );
 
   if (!recipe) {
-    return (
-      <div className="container mx-auto px-5">
-        <p>Ei vielä tätä reseptiä</p>
-      </div>
-    );
+    notFound();
   }
 
   return (

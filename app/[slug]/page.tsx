@@ -1,4 +1,5 @@
 import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 import { Markdown } from "@/lib/markdown";
 import { getAllPages } from "@/lib/api";
 import { Header } from "@/app/components/Header";
@@ -16,11 +17,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const page = allPages.find((page) => page.slug === params.slug);
 
   if (!page) {
-    return (
-      <div className="container mx-auto px-5">
-        <p>Sivua ei löydy</p>
-      </div>
-    );
+    notFound();
   }
 
   return (
