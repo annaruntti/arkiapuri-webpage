@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 
 import Date from "./date";
@@ -170,11 +171,7 @@ export default async function Home() {
   const featuredRecipes = allRecipes.slice(0, 3);
 
   if (!frontPage) {
-    return (
-      <div className="container mx-auto px-5">
-        <p>Etusivua ei löydy</p>
-      </div>
-    );
+    notFound();
   }
 
   return (

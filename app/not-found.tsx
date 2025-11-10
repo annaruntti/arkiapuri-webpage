@@ -17,7 +17,7 @@ export default function NotFound() {
           </p>
           <Link
             href="/"
-            className="inline-block bg-primary text-white font-semibold px-8 py-4 rounded-lg hover:bg-primary-dark transition-colors duration-300"
+            className="inline-block bg-primary-light text-black font-semibold px-8 py-4 rounded-[25px] hover:bg-primary transition-colors duration-300"
           >
             Palaa etusivulle
           </Link>
@@ -26,4 +26,3 @@ export default function NotFound() {
     </main>
   );
 }
-
