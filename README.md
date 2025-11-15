@@ -1,16 +1,23 @@
 # Arkiapuri Webpage
 
-This is the official website for Arkiapuri, a tool that helps you manage everyday challenges in an easy and convenient way. The website is built with Next.js and uses Contentful as a headless CMS for content management.
+This is the official website for Arkiapuri, a tool that helps you manage everyday challenges in an easy and convenient way. The website is built with Next.js 14+ (App Router) and uses Contentful as a headless CMS for content management.
 
 ## Features
 
-- Modern, responsive design
-- Blog section for updates and announcements
-- Content management through Contentful
+- Modern, responsive design with Tailwind CSS
+- Recipe section with detailed recipe pages (`/artikkelit/reseptit`)
+- Blog section for articles and posts (`/artikkelit/blogi`)
+- Static page support for custom content
+- Content management through Contentful CMS
 - Draft mode for content preview
 - On-demand revalidation for instant content updates
 - Optimized GraphQL queries for efficient content loading
 - Responsive image handling with Next.js Image component
+- SEO optimization with structured data (Schema.org)
+- Sitemap and robots.txt generation
+- Google AdSense integration
+- Parallax effects and scroll animations
+- Deployed on Netlify
 
 ## Getting Started
 
@@ -71,28 +78,100 @@ This project uses Contentful as a headless CMS. The content model includes:
   - content (Rich Text)
   - excerpt (Text)
   - coverImage (Media)
+  - heroImage (Media)
   - date (Date and Time)
   - slug (Text)
   - author (Reference to Author)
 
 - **Page**: Content type for static pages
+
   - title (Text)
   - introduction (Long Text)
   - content (Rich Text)
   - slug (Text)
   - coverImage (Media)
-  - heroImage
+  - heroImage (Media)
+  - leftTextColumn (Long Text)
+  - rightVideoColumn (Rich Text)
+
+- **Recipe**: Content type for recipes
+
+  - title (Text)
+  - slug (Text) - Auto-generated from title if not provided
+  - category (Text) - e.g., "Pääruoka", "Jälkiruoka"
+  - mealType (Text) - e.g., "Lounas", "Illallinen"
+  - difficultyLevel (Text) - e.g., "Helppo", "Keskivaikea"
+  - preparationTime (Text) - e.g., "30 min"
+  - heroImage (Media)
+  - imagesCollection (Media, multiple)
+  - blogText (Rich Text) - Introduction/story about the recipe
+  - instructions (Rich Text) - General instructions
+  - steps (Text, multiple) - Step-by-step instructions list
+  - preparationSteps (Rich Text) - Detailed preparation instructions
+  - ingredientsCollection (Reference to Ingredients, multiple)
+
+- **Ingredients**: Content type for recipe ingredients
+  - name (Text)
+  - quantity (Text)
+  - unit (Text)
+  - image (Media)
 
 ### GraphQL Query Optimization
 
 The project implements optimized GraphQL queries to handle Contentful's complexity limits:
 
-- Queries are limited to 5 items per collection to stay within Contentful's complexity limits
-- Essential fields are selected to minimize query complexity
+- Queries use specific field selection to minimize complexity
+- Recipe queries have separate fields for list view (`RECIPE_GRAPHQL_FIELDS`) and detail view (`RECIPE_GRAPHQL_FIELDS_FULL`)
+- Collections are limited appropriately (e.g., ingredients: 20, images: 10, posts: 5)
 - Asset fields are included for proper image handling
-- Pagination is implemented for larger content sets
+- Preview mode support for draft content
+
+## Project Structure
+
+```
+app/
+├── [slug]/                      # Dynamic pages (from Contentful Page content type)
+├── api/                         # API routes for draft mode and revalidation
+├── artikkelit/                  # Articles section
+│   ├── blogi/                   # Blog articles listing
+│   └── reseptit/                # Recipe section
+│       ├── [slug]/              # Individual recipe pages
+│       └── page.tsx             # Recipe listing page
+├── components/                  # Reusable components
+│   ├── ArticleSchema.tsx        # Schema.org for articles
+│   ├── RecipeSchema.tsx         # Schema.org for recipes
+│   ├── RecipeCard.tsx           # Recipe card component
+│   ├── Header.tsx               # Site header
+│   ├── Navigation.tsx           # Navigation component
+│   ├── ParallaxElement.tsx      # Parallax effect component
+│   └── ScrollAnimation.tsx      # Scroll animation component
+├── posts/                       # Blog posts
+│   └── [slug]/                  # Individual post pages
+├── recipes/                     # Alternative recipe route
+├── layout.tsx                   # Root layout
+├── page.tsx                     # Homepage
+├── robots.ts                    # Robots.txt configuration
+└── sitemap.ts                   # Sitemap generation
+
+lib/
+├── api.ts                       # Contentful API functions
+├── types.ts                     # TypeScript type definitions
+├── markdown.tsx                 # Rich text renderer
+├── contentful-image.tsx         # Image component for Contentful
+├── useParallax.ts               # Parallax hook
+└── useScrollAnimation.ts        # Scroll animation hook
+```
 
 ## Development Notes
+
+### Tech Stack
+
+- **Framework**: Next.js 14+ (App Router)
+- **Styling**: Tailwind CSS with Typography plugin
+- **CMS**: Contentful (GraphQL API)
+- **Deployment**: Netlify
+- **Language**: TypeScript
+- **Rich Text Rendering**: Contentful Rich Text React Renderer
 
 ### Image Handling
 
@@ -100,13 +179,29 @@ The project implements optimized GraphQL queries to handle Contentful's complexi
 - Responsive image sizing with aspect ratio containers
 - Proper handling of both horizontal and vertical images
 - Background color fill for image containers
+- Remote image patterns configured for `images.ctfassets.net`
 
 ### Contentful Integration
 
 - GraphQL API for efficient data fetching
-- Draft mode support for content preview
-- On-demand revalidation for instant updates
+- Draft mode support for content preview via `/api/draft` and `/api/enable-draft`
+- On-demand revalidation for instant updates via `/api/revalidate`
 - Error handling for API responses
+- Automatic slug generation for recipes from titles
+
+### SEO & Schema.org
+
+The project implements structured data for better SEO:
+
+- **RecipeSchema**: Implements Schema.org Recipe type with:
+  - Recipe name, image, description
+  - Preparation time
+  - Ingredients list
+  - Step-by-step instructions (HowToStep)
+  - Recipe category and cuisine
+- **ArticleSchema**: For blog posts and articles
+- **Sitemap**: Automatically generated at `/sitemap.xml`
+- **Robots.txt**: Configured to allow crawling with proper exclusions
 
 ### Semantic HTML Structure
 
@@ -134,3 +229,54 @@ The project uses a clear component hierarchy:
 - Alt text for images
 - ARIA labels where needed
 - Responsive design for all screen sizes
+
+## Deployment
+
+The project is deployed on Netlify with the following configuration:
+
+### Netlify Configuration (`netlify.toml`)
+
+- **Build command**: `npm install --legacy-peer-deps && npm run build`
+- **Node version**: 20
+- **Plugin**: `@netlify/plugin-nextjs` for Next.js support
+- **Functions**: Configured to include necessary dependencies
+
+### Environment Variables
+
+Make sure to set the following environment variables in your Netlify dashboard:
+
+```
+CONTENTFUL_SPACE_ID=your_space_id
+CONTENTFUL_ACCESS_TOKEN=your_access_token
+CONTENTFUL_PREVIEW_ACCESS_TOKEN=your_preview_token
+CONTENTFUL_PREVIEW_SECRET=your_preview_secret
+CONTENTFUL_REVALIDATE_SECRET=your_revalidate_secret
+```
+
+### Deployment Triggers
+
+- Automatic deployments on push to `main` branch
+- Manual deployments via Netlify dashboard
+- Content updates trigger revalidation via webhook to `/api/revalidate`
+
+## Available Scripts
+
+- `npm run dev` - Start development server (runs on port 3000 by default)
+- `npm run build` - Build production bundle
+- `npm run start` - Start production server
+- `npm run setup` - Run Contentful setup script
+
+## API Routes
+
+- `/api/draft` - Enable draft mode for previewing unpublished content
+- `/api/enable-draft` - Alternative draft mode endpoint
+- `/api/disable-draft` - Disable draft mode
+- `/api/revalidate` - Trigger on-demand revalidation of content
+
+## License
+
+This is a private project for Arkiapuri.
+
+## Domain
+
+- Production: https://arkiapuri.fi
