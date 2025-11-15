@@ -4,7 +4,6 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   const pathname = request.nextUrl.pathname;
-  console.log("Middleware pathname:", pathname);
   requestHeaders.set("x-current-path", pathname);
 
   return NextResponse.next({

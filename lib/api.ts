@@ -185,7 +185,6 @@ async function fetchGraphQL<T>(
     }
 
     const data = await response.json();
-    console.log("Contentful API response:", data);
     return data;
   } catch (error) {
     console.error("Error in fetchGraphQL:", error);
@@ -237,7 +236,6 @@ export async function getAllPosts(
       }`,
       isDraftMode
     );
-    console.log("Contentful response:", entries);
     return extractPostEntries(entries);
   } catch (error) {
     console.error("Error fetching posts:", error);
@@ -393,7 +391,6 @@ export async function getAllRecipes(
       }`,
       isDraftMode
     );
-    console.log("Contentful recipes response:", entries);
     return extractRecipeEntries(entries);
   } catch (error) {
     console.error("Error fetching recipes:", error);

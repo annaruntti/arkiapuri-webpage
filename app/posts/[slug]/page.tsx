@@ -13,8 +13,6 @@ import { getAllPosts, getPostAndMorePosts } from "@/lib/api";
 export async function generateStaticParams() {
   const allPosts = await getAllPosts(false);
 
-  console.log("allPosts", allPosts);
-
   return allPosts.map((post) => ({
     slug: post.slug,
   }));

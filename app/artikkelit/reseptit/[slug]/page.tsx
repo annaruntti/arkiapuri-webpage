@@ -11,8 +11,6 @@ import Image from "next/image";
 export async function generateStaticParams() {
   const allRecipes = await getAllRecipes(false);
 
-  console.log("allRecipes", allRecipes);
-
   return allRecipes.map((recipe) => ({
     slug: recipe.slug,
   }));
