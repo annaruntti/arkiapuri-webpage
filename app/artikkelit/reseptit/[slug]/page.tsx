@@ -171,6 +171,18 @@ export default async function RecipePage({ params }: PageProps) {
               )}
             </div>
 
+            {/* Description Rich Text */}
+            {recipe.instructions && (
+              <div className="mb-12">
+                <div className="prose prose-xl max-w-none text-gray-700 leading-relaxed">
+                  <Markdown
+                    content={recipe.instructions.json}
+                    assets={recipe.instructions.links.assets.block}
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Blog Text Section */}
             {recipe.blogText && (
               <div className="mb-12">
@@ -226,19 +238,6 @@ export default async function RecipePage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Instructions Rich Text */}
-            {recipe.instructions && (
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold mb-4">Ohjeet</h2>
-                <div className="prose max-w-none">
-                  <Markdown
-                    content={recipe.instructions.json}
-                    assets={recipe.instructions.links.assets.block}
-                  />
-                </div>
-              </div>
-            )}
-
             {/* Preparation Steps Rich Text */}
             {recipe.preparationSteps && (
               <div className="mb-12">
@@ -256,7 +255,6 @@ export default async function RecipePage({ params }: PageProps) {
             {recipe.imagesCollection &&
               recipe.imagesCollection.items.length > 0 && (
                 <div className="mb-12">
-                  <h2 className="text-2xl font-bold mb-4">Kuvia</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {recipe.imagesCollection.items.map((image, index) => (
                       <img
