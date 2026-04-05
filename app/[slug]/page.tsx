@@ -11,10 +11,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const { isEnabled } = await draftMode();
   const allPages = await getAllPages(isEnabled);
-  const page = allPages.find((page) => page.slug === params.slug);
+  const page = allPages.find((page) => page.slug === slug);
 
   if (!page) {
     notFound();
