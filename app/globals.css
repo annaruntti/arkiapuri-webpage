@@ -66,17 +66,14 @@ body {
 /* Hidden state for scroll animations */
 .animate-hidden {
   opacity: 0;
-  transform: translateY(30px);
-  transition: none;
-  /* Ensure text is still accessible */
-  visibility: visible;
+  transform: translateY(24px);
 }
 
 /* Custom animations */
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -87,7 +84,7 @@ body {
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(60px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -98,7 +95,7 @@ body {
 @keyframes slide-in-left {
   from {
     opacity: 0;
-    transform: translateX(-80px);
+    transform: translateX(-32px);
   }
   to {
     opacity: 1;
@@ -109,7 +106,7 @@ body {
 @keyframes slide-in-right {
   from {
     opacity: 0;
-    transform: translateX(80px);
+    transform: translateX(32px);
   }
   to {
     opacity: 1;
@@ -120,7 +117,7 @@ body {
 @keyframes scale-in {
   from {
     opacity: 0;
-    transform: scale(0.6);
+    transform: scale(0.96);
   }
   to {
     opacity: 1;
@@ -131,11 +128,11 @@ body {
 @keyframes bounce-in {
   0% {
     opacity: 0;
-    transform: scale(0.3) translateY(-50px);
+    transform: scale(0.95) translateY(16px);
   }
   50% {
     opacity: 1;
-    transform: scale(1.05) translateY(0);
+    transform: scale(1.02) translateY(0);
   }
   70% {
     transform: scale(0.95);
@@ -168,33 +165,27 @@ body {
 
 /* Animation classes - standardized timing */
 .animate-fade-in {
-  animation: fade-in 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  animation-fill-mode: forwards;
+  animation: fade-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  animation-fill-mode: forwards;
+  animation: fade-in-up 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .animate-slide-in-left {
-  animation: slide-in-left 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  animation-fill-mode: forwards;
+  animation: slide-in-left 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .animate-slide-in-right {
-  animation: slide-in-right 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  animation-fill-mode: forwards;
+  animation: slide-in-right 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .animate-scale-in {
-  animation: scale-in 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  animation-fill-mode: forwards;
+  animation: scale-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .animate-bounce-in {
-  animation: bounce-in 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  animation-fill-mode: forwards;
+  animation: bounce-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .animate-float {
@@ -305,25 +296,9 @@ body {
   transform: translateY(0);
 }
 
-/* Smooth transitions for all interactive elements */
-* {
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
-}
-
-/* Prevent animation re-triggering */
+/* Keep final animation state after keyframes finish */
 [data-animated="true"] {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
-/* Ensure animated elements stay in final state */
-.animate-fade-in,
-.animate-fade-in-up,
-.animate-slide-in-left,
-.animate-slide-in-right,
-.animate-scale-in,
-.animate-bounce-in {
-  animation-fill-mode: forwards !important;
+  opacity: 1;
 }
 
 /* Enhanced focus states for accessibility */
@@ -332,50 +307,8 @@ body {
   outline-offset: 2px;
 }
 
-/* Mobile-specific fixes for animation jumping */
+/* Mobile-specific fixes */
 @media (max-width: 768px) {
-  /* Prevent layout shifts during animations */
-  .animate-hidden {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: none;
-    will-change: transform, opacity;
-    /* Prevent flash by ensuring consistent initial state */
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform-style: preserve-3d;
-  }
-
-  /* Optimize animations for mobile */
-  .animate-fade-in,
-  .animate-fade-in-up,
-  .animate-slide-in-left,
-  .animate-slide-in-right,
-  .animate-scale-in,
-  .animate-bounce-in {
-    animation-duration: 1s !important;
-    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-    will-change: transform, opacity;
-    /* Prevent flash during animation */
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform-style: preserve-3d;
-  }
-
-  /* Prevent reflow during scroll */
-  [data-animated="true"] {
-    opacity: 1 !important;
-    transform: none !important;
-    will-change: auto;
-    backface-visibility: visible;
-    -webkit-backface-visibility: visible;
-  }
-
-  /* Reduce animation complexity on mobile */
-  .animate-bounce-in {
-    animation: fade-in-up 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
   /* Smooth scrolling for mobile */
   html {
     scroll-behavior: smooth;
@@ -387,19 +320,6 @@ body {
   textarea,
   select {
     font-size: 16px;
-  }
-
-  /* Additional mobile optimizations - exclude navigation */
-  *:not(nav):not(nav *):not(.md\\:hidden):not(.md\\:flex) {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-  }
-
-  /* Ensure mobile navigation container stays fixed */
-  .md\\:hidden {
-    position: relative !important;
-    transform: none !important;
-    -webkit-transform: none !important;
   }
 
   /* Prevent image resizing during animations - only for cover images */
@@ -436,36 +356,9 @@ body {
     object-fit: cover;
   }
 
-  /* Ensure smooth animations without layout shifts */
-  .animate-fade-in-up img,
-  .animate-scale-in img {
-    transform-origin: center;
-    will-change: transform;
-    /* Prevent size changes during animation */
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-  }
-
-  /* Fix Next.js Image component flashing */
-  [data-nimg] {
-    opacity: 1 !important;
-    transition: opacity 0.3s ease;
-  }
-
-  /* Prevent hover effects during animations */
+  /* Prevent interaction while content is still hidden */
   .animate-hidden * {
     pointer-events: none;
-  }
-
-  /* Prevent flash of unstyled content - use opacity instead of visibility */
-  .animate-hidden {
-    opacity: 0;
-    visibility: visible;
-  }
-
-  [data-animated="true"] {
-    opacity: 1;
-    visibility: visible;
   }
 }
 

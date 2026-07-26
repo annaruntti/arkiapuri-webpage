@@ -118,7 +118,7 @@ function HeroPost({
 }) {
   return (
     <section>
-      <ScrollAnimation animation="fade-in-up" delay={0.2}>
+      <ScrollAnimation animation="fade-in-up">
         <div className="mb-8 md:mb-16 group">
           <CoverImage
             title={title}
@@ -129,7 +129,7 @@ function HeroPost({
         </div>
       </ScrollAnimation>
       <div className="md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28">
-        <ScrollAnimation animation="slide-in-left" delay={0.3}>
+        <ScrollAnimation animation="fade-in-up" delay={0.05}>
           <div>
             <h3 className="mb-4 text-2xl lg:text-4xl leading-tight">
               <Link
@@ -144,7 +144,7 @@ function HeroPost({
             </div>
           </div>
         </ScrollAnimation>
-        <ScrollAnimation animation="slide-in-right" delay={0.4}>
+        <ScrollAnimation animation="fade-in-up" delay={0.1}>
           <div>
             <p className="text-lg leading-relaxed mb-4">"{excerpt}"</p>
             {author && (
@@ -178,7 +178,7 @@ export default async function Home() {
     <>
       <Header frontPage={frontPage} />
       <main className="flex-1">
-        <ScrollAnimation animation="fade-in" delay={0.5} duration={2.0}>
+        <ScrollAnimation animation="fade-in">
           <section>
             {/* Image section with purple bg on mobile */}
             <div className="bg-purple-50 lg:bg-transparent">
@@ -230,7 +230,7 @@ export default async function Home() {
 
         {/* Two-column section: Text left, Video right */}
         {(frontPage.leftTextColumn || frontPage.rightVideoColumn) && (
-          <ScrollAnimation animation="fade-in" delay={0.3}>
+          <ScrollAnimation animation="fade-in">
             <section
               className="py-14 mb-16"
               style={{ backgroundColor: "#eeeeec" }}
@@ -260,7 +260,7 @@ export default async function Home() {
 
         <section className="mb-8">
           <div className="container mx-auto px-5">
-            <ScrollAnimation animation="fade-in-up" delay={0.1}>
+            <ScrollAnimation animation="fade-in-up">
               <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
                 <Link
                   href="/artikkelit/blogi"
@@ -289,7 +289,7 @@ export default async function Home() {
         {featuredRecipes.length > 0 && (
           <section className="mb-16 mt-16">
             <div className="container mx-auto px-5">
-              <ScrollAnimation animation="fade-in-up" delay={0.1}>
+              <ScrollAnimation animation="fade-in-up">
                 <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
                   <Link
                     href="/artikkelit/reseptit"
@@ -300,7 +300,7 @@ export default async function Home() {
                 </h2>
               </ScrollAnimation>
 
-              <ScrollAnimation animation="fade-in-up" delay={0.2}>
+              <ScrollAnimation animation="fade-in-up" delay={0.08}>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {featuredRecipes.map((recipe) => (
                     <RecipeCard

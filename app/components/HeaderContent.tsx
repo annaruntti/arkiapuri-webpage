@@ -13,7 +13,7 @@ export function HeaderContent({
 
   return (
     <div
-      className={`absolute ${bottomClass} left-5 right-5 md:left-auto md:right-20 z-10 animate-fade-in-up`}
+      className={`absolute ${bottomClass} left-5 right-5 md:left-auto md:right-20 z-10`}
       style={isFrontPage ? { bottom: "9rem" } : {}}
     >
       <div className="container mx-auto max-w-4xl">

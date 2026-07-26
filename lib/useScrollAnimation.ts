@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface UseScrollAnimationOptions {
   threshold?: number;
@@ -11,70 +11,52 @@ interface UseScrollAnimationOptions {
 export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
   const {
     threshold = 0.1,
-    rootMargin = "0px 0px -50px 0px",
+    rootMargin = "0px 0px -40px 0px",
     triggerOnce = true,
   } = options;
 
   const [isVisible, setIsVisible] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
-  const handleIntersection = useCallback(
-    ([entry]: IntersectionObserverEntry[]) => {
-      if (entry.isIntersecting && !hasAnimated) {
-        setIsVisible(true);
-        setHasAnimated(true);
-      } else if (!triggerOnce && !entry.isIntersecting && hasAnimated) {
-        setIsVisible(false);
-      }
-    },
-    [hasAnimated, triggerOnce]
-  );
+  const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
-    // Check if element is already in view on initial load
-    const rect = element.getBoundingClientRect();
-    const isInView = rect.top < window.innerHeight && rect.bottom > 0;
-
-    if (isInView && !hasAnimated) {
+    const reveal = () => {
+      if (hasAnimatedRef.current && triggerOnce) return;
+      hasAnimatedRef.current = true;
       setIsVisible(true);
-      setHasAnimated(true);
+    };
+
+    const hide = () => {
+      if (triggerOnce) return;
+      setIsVisible(false);
+    };
+
+    // Already in viewport on mount — reveal without waiting for observer
+    const rect = element.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      reveal();
+      if (triggerOnce) return;
     }
 
-    // Clean up existing observer
-    if (observerRef.current) {
-      observerRef.current.disconnect();
-    }
-
-    // Create new observer with optimized settings for mobile
     const observer = new IntersectionObserver(
-      (entries) => {
-        requestAnimationFrame(() => {
-          handleIntersection(entries);
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          reveal();
+          if (triggerOnce) observer.disconnect();
+        } else {
+          hide();
+        }
       },
-      {
-        threshold,
-        rootMargin,
-        // Add passive option for better mobile performance
-        root: null,
-      }
+      { threshold, rootMargin }
     );
 
-    observerRef.current = observer;
     observer.observe(element);
 
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-        observerRef.current = null;
-      }
-    };
-  }, [threshold, rootMargin, triggerOnce, handleIntersection, hasAnimated]);
+    return () => observer.disconnect();
+  }, [threshold, rootMargin, triggerOnce]);
 
   return { ref, isVisible };
 }

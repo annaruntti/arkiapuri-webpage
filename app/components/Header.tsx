@@ -60,7 +60,7 @@ export function Header({
           </div>
         )}
         <HeaderContent isFrontPage={false}>
-          <ScrollAnimation animation="fade-in" delay={0.3}>
+          <ScrollAnimation animation="fade-in">
             <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter leading-tight">
               {postTitle}
             </h1>
@@ -92,7 +92,7 @@ export function Header({
           </div>
         )}
         <HeaderContent isFrontPage={false}>
-          <ScrollAnimation animation="fade-in" delay={0.3}>
+          <ScrollAnimation animation="fade-in">
             <h1 className="text-4xl md:text-6xl font-semibold tracking-tighter leading-tight">
               {pageTitle}
             </h1>
@@ -122,13 +122,13 @@ export function Header({
         </div>
       )}
       <HeaderContent>
-        <ScrollAnimation animation="fade-in" delay={0.3}>
+        <ScrollAnimation animation="fade-in">
           <h1 className="text-6xl md:text-8xl font-semibold tracking-tighter leading-tight">
             {frontPage.title}
           </h1>
         </ScrollAnimation>
         {frontPage.introduction && (
-          <ScrollAnimation animation="fade-in-up" delay={0.5}>
+          <ScrollAnimation animation="fade-in-up" delay={0.12}>
             <div className="text-left text-lg pt-5">
               <h2
                 className="text-1xl lg:text-3xl leading-tight"
