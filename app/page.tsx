@@ -15,6 +15,9 @@ import { getAllPosts } from "@/lib/api";
 import { getAllRecipes } from "@/lib/api";
 import { Header } from "./components/Header";
 import { RecipeCard } from "./components/RecipeCard";
+import { YouTubeFacadeEmbed } from "./components/YouTubeFacadeEmbed";
+import type { ContentfulAuthor } from "@/lib/types";
+import type { Document } from "@contentful/rich-text-types";
 
 // Utility function to extract YouTube video ID from URL
 function getYouTubeVideoId(url: string): string | null {
@@ -24,81 +27,37 @@ function getYouTubeVideoId(url: string): string | null {
   return match ? match[1] : null;
 }
 
-// Component to render YouTube video from rich text content
-function YouTubeEmbed({ content }: { content: any }) {
-  // Extract URL from rich text content
-  const extractUrlFromRichText = (richTextContent: any): string | null => {
-    if (!richTextContent?.content) return null;
+function extractYouTubeUrlFromRichText(
+  richTextContent: Document | null | undefined
+): string | null {
+  if (!richTextContent?.content) return null;
 
-    for (const node of richTextContent.content) {
-      if (node.nodeType === "paragraph" && node.content) {
-        for (const childNode of node.content) {
-          // Check for hyperlink first
-          if (childNode.nodeType === "hyperlink" && childNode.data?.uri) {
-            return childNode.data.uri;
-          }
-          // Check for plain text that looks like a YouTube URL
-          if (childNode.nodeType === "text" && childNode.value) {
-            const text = childNode.value.trim();
-            if (text.includes("youtube.com") || text.includes("youtu.be")) {
-              return text;
-            }
+  for (const node of richTextContent.content) {
+    if (node.nodeType === "paragraph" && "content" in node && node.content) {
+      for (const childNode of node.content) {
+        if (childNode.nodeType === "hyperlink" && childNode.data?.uri) {
+          return childNode.data.uri;
+        }
+        if (childNode.nodeType === "text" && childNode.value) {
+          const text = childNode.value.trim();
+          if (text.includes("youtube.com") || text.includes("youtu.be")) {
+            return text;
           }
         }
       }
     }
-    return null;
-  };
+  }
+  return null;
+}
 
-  const url = extractUrlFromRichText(content);
+function YouTubeEmbed({ content }: { content: Document }) {
+  const url = extractYouTubeUrlFromRichText(content);
   if (!url) return <p>No YouTube URL found</p>;
 
   const videoId = getYouTubeVideoId(url);
   if (!videoId) return <p>Invalid YouTube URL</p>;
 
-  return (
-    <div
-      className="mx-auto overflow-hidden rounded-lg relative w-full max-w-sm md:w-80 youtube-container"
-      style={{ height: "650px" }}
-    >
-      <iframe
-        src={`https://www.youtube-nocookie.com/embed/${videoId}?controls=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&fs=1&disablekb=0&enablejsapi=0&cc_load_policy=0&playsinline=1`}
-        title="Arkiapuri esittelyvideo"
-        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        className="rounded-lg youtube-embed"
-        role="application"
-        aria-label="Arkiapuri esittelyvideo"
-        loading="lazy"
-        style={{
-          width: "250%",
-          height: "745px",
-          position: "absolute",
-          top: "-42px",
-          left: "-75%",
-          border: "none",
-        }}
-      ></iframe>
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-          @media (min-width: 769px) {
-            .youtube-embed {
-              width: 320px !important;
-              height: 592px !important;
-              left: 0px !important;
-              top: 23px !important;
-            }
-            .youtube-container {
-              width: 320px !important;
-              height: 569px !important;
-            }
-          }
-        `,
-        }}
-      />
-    </div>
-  );
+  return <YouTubeFacadeEmbed videoId={videoId} />;
 }
 
 function HeroPost({
@@ -110,10 +69,13 @@ function HeroPost({
   slug,
 }: {
   title: string;
-  heroImage: any;
+  heroImage: {
+    url: string;
+    description?: string;
+  };
   date: string;
   excerpt?: string;
-  author: any;
+  author?: ContentfulAuthor | null;
   slug: string;
 }) {
   return (
@@ -146,7 +108,7 @@ function HeroPost({
         </ScrollAnimation>
         <ScrollAnimation animation="fade-in-up" delay={0.1}>
           <div>
-            <p className="text-lg leading-relaxed mb-4">"{excerpt}"</p>
+            <p className="text-lg leading-relaxed mb-4">{`“${excerpt}”`}</p>
             {author && (
               <Avatar
                 name={author.name}
