@@ -106,7 +106,7 @@ export function Markdown({ content, assets = [] }: MarkdownProps) {
           </blockquote>
         );
       },
-      [BLOCKS.EMBEDDED_ENTRY]: (node: Node) => {
+      [BLOCKS.EMBEDDED_ENTRY]: () => {
         // Embedded entries differently based on the type of entry
         return (
           <div
@@ -174,7 +174,7 @@ export function Markdown({ content, assets = [] }: MarkdownProps) {
         }
         return null;
       },
-      [INLINES.EMBEDDED_ENTRY]: (node: Node) => {
+      [INLINES.EMBEDDED_ENTRY]: () => {
         // Embedded entries differently based on the type of entry
         return (
           <div

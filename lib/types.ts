@@ -44,7 +44,7 @@ export interface ContentfulPost {
   };
   excerpt: string;
   content: {
-    json: any;
+    json: Document;
     links: {
       assets: {
         block: {
@@ -111,7 +111,7 @@ export interface ContentfulRecipe {
   };
   steps?: string[];
   blogText?: {
-    json: any;
+    json: Document;
     links: {
       assets: {
         block: {
@@ -125,7 +125,7 @@ export interface ContentfulRecipe {
     };
   };
   instructions?: {
-    json: any;
+    json: Document;
     links: {
       assets: {
         block: {
@@ -142,7 +142,7 @@ export interface ContentfulRecipe {
     items: ContentfulIngredient[];
   };
   preparationSteps?: {
-    json: any;
+    json: Document;
     links: {
       assets: {
         block: {

@@ -424,7 +424,7 @@ export async function getRecipeAndMoreRecipes(
     );
     const fullRecipe = entry?.data
       ? {
-          ...(entry.data as any).recipes,
+          ...(entry.data as { recipes: ContentfulRecipe }).recipes,
           slug: recipe.slug,
         }
       : recipe;

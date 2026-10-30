@@ -2,8 +2,13 @@ import Link from "next/link";
 import Avatar from "./avatar";
 import DateComponent from "./date";
 import CoverImage from "./cover-image";
+import type { ContentfulPost } from "@/lib/types";
 
-export default function MoreStories({ morePosts }: { morePosts: any[] }) {
+export default function MoreStories({
+  morePosts,
+}: {
+  morePosts: ContentfulPost[];
+}) {
   return (
     <section>
       <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
@@ -15,7 +20,7 @@ export default function MoreStories({ morePosts }: { morePosts: any[] }) {
         </Link>
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-8 lg:gap-x-16 gap-y-20 md:gap-y-32 mb-32">
-        {morePosts.map((post, index) => (
+        {morePosts.map((post) => (
           <div
             key={post.slug}
             className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg hover:shadow-purple-100 hover:-translate-y-1 transition-all duration-300 group"
@@ -38,11 +43,11 @@ export default function MoreStories({ morePosts }: { morePosts: any[] }) {
                 </Link>
               </h3>
               <p className="text-gray-600 mb-4 leading-relaxed">
-                "{post.excerpt}"
+                {`“${post.excerpt}”`}
               </p>
               <div className="space-y-3">
                 <DateComponent dateString={post.date} />
-                {post.author && (
+                {post.author?.profilePicture && (
                   <Avatar
                     name={post.author.name}
                     profilePicture={post.author.profilePicture}

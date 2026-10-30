@@ -1,8 +1,23 @@
 import ContentfulImage from "../lib/contentful-image";
 import Link from "next/link";
 
-function cn(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
+type ClassValue =
+  | string
+  | false
+  | null
+  | undefined
+  | Record<string, unknown>;
+
+function cn(...classes: ClassValue[]) {
+  return classes
+    .flatMap((cls) => {
+      if (!cls) return [];
+      if (typeof cls === "string") return [cls];
+      return Object.entries(cls)
+        .filter(([, enabled]) => Boolean(enabled))
+        .map(([name]) => name);
+    })
+    .join(" ");
 }
 
 export default function CoverImage({

@@ -104,7 +104,7 @@ function HeroPost({
         </div>
         <div>
           <p className="text-lg leading-relaxed mb-4">{`“${excerpt}”`}</p>
-          {author && (
+          {author?.profilePicture && (
             <Avatar
               name={author.name}
               profilePicture={author.profilePicture}

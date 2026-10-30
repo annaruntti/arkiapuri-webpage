@@ -6,7 +6,8 @@ import { getAllRecipes, getRecipeAndMoreRecipes } from "@/lib/api";
 import Script from "next/script";
 import { RecipeCard } from "../../../components/RecipeCard";
 import { RecipeSchema } from "../../../components/RecipeSchema";
-import Image from "next/image";
+import ContentfulImage from "@/lib/contentful-image";
+import type { ContentfulRecipe } from "@/lib/types";
 
 export async function generateStaticParams() {
   const allRecipes = await getAllRecipes(false);
@@ -63,7 +64,7 @@ interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-function MoreRecipes({ moreRecipes }: { moreRecipes: any[] }) {
+function MoreRecipes({ moreRecipes }: { moreRecipes: ContentfulRecipe[] }) {
   if (!moreRecipes || moreRecipes.length === 0) {
     return null;
   }
@@ -205,9 +206,11 @@ export default async function RecipePage({ params }: PageProps) {
                         className="flex items-center gap-3"
                       >
                         {ingredient.image && (
-                          <img
+                          <ContentfulImage
                             src={ingredient.image.url}
                             alt={ingredient.name}
+                            width={32}
+                            height={32}
                             className="w-8 h-8 rounded-full object-cover"
                           />
                         )}
@@ -255,10 +258,12 @@ export default async function RecipePage({ params }: PageProps) {
                 <div className="mb-12">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {recipe.imagesCollection.items.map((image, index) => (
-                      <img
+                      <ContentfulImage
                         key={index}
                         src={image.url}
                         alt={image.description || `Kuva ${index + 1}`}
+                        width={800}
+                        height={600}
                         className="w-full h-auto rounded-lg"
                       />
                     ))}

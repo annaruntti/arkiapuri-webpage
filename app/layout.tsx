@@ -1,6 +1,5 @@
 import "./globals.css";
 import { Fira_Sans } from "next/font/google";
-import { Button } from "./components/Button";
 import { Navigation } from "./components/Navigation";
 import { getAllPages } from "@/lib/api";
 import { draftMode } from "next/headers";

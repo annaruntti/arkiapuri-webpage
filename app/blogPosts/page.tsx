@@ -5,6 +5,7 @@ import Date from "../date";
 import CoverImage from "../cover-image";
 import Avatar from "../avatar";
 import { Header } from "../components/Header";
+import type { ContentfulAuthor } from "@/lib/types";
 
 export const metadata = {
   title: "Artikkelit - Arkiapuri",
@@ -20,10 +21,13 @@ function PostCard({
   slug,
 }: {
   title: string;
-  coverImage: any;
+  coverImage: {
+    url: string;
+    description?: string;
+  };
   date: string;
   excerpt: string;
-  author: any;
+  author?: ContentfulAuthor | null;
   slug: string;
 }) {
   return (
@@ -48,7 +52,7 @@ function PostCard({
         <p className="text-gray-600 mb-4 leading-relaxed">{excerpt}</p>
         <div className="space-y-3">
           <Date dateString={date} />
-          {author && (
+          {author?.profilePicture && (
             <Avatar name={author.name} profilePicture={author.profilePicture} />
           )}
         </div>

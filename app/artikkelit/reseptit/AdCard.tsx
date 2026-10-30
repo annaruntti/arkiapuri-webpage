@@ -2,14 +2,17 @@
 
 import { useEffect } from "react";
 
+declare global {
+  interface Window {
+    adsbygoogle?: Record<string, unknown>[];
+  }
+}
+
 export function AdCard() {
   useEffect(() => {
     try {
-      // Initialize the ad
       if (typeof window !== "undefined") {
-        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push(
-          {}
-        );
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
     } catch (err) {
       console.error("AdSense error:", err);
@@ -29,4 +32,3 @@ export function AdCard() {
     </div>
   );
 }
-
