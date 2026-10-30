@@ -66,25 +66,23 @@ body {
 /* Hidden state for scroll animations */
 .animate-hidden {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(16px);
 }
 
 /* Custom animations */
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(16px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -163,29 +161,43 @@ body {
   }
 }
 
-/* Animation classes - standardized timing */
+/* Animation classes - standardized timing
+   fill-mode: both keeps the "from" keyframe during delay (prevents flash)
+   opacity: 0 is a fallback for the first frame before the animation engine starts */
+.animate-fade-in,
+.animate-fade-in-up,
+.animate-slide-in-left,
+.animate-slide-in-right,
+.animate-scale-in,
+.animate-bounce-in {
+  opacity: 0;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: both;
+}
+
 .animate-fade-in {
-  animation: fade-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-name: fade-in;
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-name: fade-in-up;
 }
 
 .animate-slide-in-left {
-  animation: slide-in-left 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-name: slide-in-left;
 }
 
 .animate-slide-in-right {
-  animation: slide-in-right 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-name: slide-in-right;
 }
 
 .animate-scale-in {
-  animation: scale-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-name: scale-in;
 }
 
 .animate-bounce-in {
-  animation: bounce-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-name: bounce-in;
 }
 
 .animate-float {

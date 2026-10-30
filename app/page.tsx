@@ -80,43 +80,37 @@ function HeroPost({
 }) {
   return (
     <section>
-      <ScrollAnimation animation="fade-in-up">
-        <div className="mb-8 md:mb-16 group">
-          <CoverImage
-            title={title}
-            slug={slug}
-            url={heroImage.url}
-            description={heroImage.description}
-          />
-        </div>
-      </ScrollAnimation>
+      <div className="mb-8 md:mb-16 group">
+        <CoverImage
+          title={title}
+          slug={slug}
+          url={heroImage.url}
+          description={heroImage.description}
+        />
+      </div>
       <div className="md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28">
-        <ScrollAnimation animation="fade-in-up" delay={0.05}>
-          <div>
-            <h3 className="mb-4 text-2xl lg:text-4xl leading-tight">
-              <Link
-                href={`/posts/${slug}`}
-                className="hover:text-primary transition-colors hover-scale"
-              >
-                {title}
-              </Link>
-            </h3>
-            <div className="mb-4 md:mb-0 text-lg">
-              <Date dateString={date} />
-            </div>
+        <div>
+          <h3 className="mb-4 text-2xl lg:text-4xl leading-tight">
+            <Link
+              href={`/posts/${slug}`}
+              className="hover:text-primary transition-colors hover-scale"
+            >
+              {title}
+            </Link>
+          </h3>
+          <div className="mb-4 md:mb-0 text-lg">
+            <Date dateString={date} />
           </div>
-        </ScrollAnimation>
-        <ScrollAnimation animation="fade-in-up" delay={0.1}>
-          <div>
-            <p className="text-lg leading-relaxed mb-4">{`“${excerpt}”`}</p>
-            {author && (
-              <Avatar
-                name={author.name}
-                profilePicture={author.profilePicture}
-              />
-            )}
-          </div>
-        </ScrollAnimation>
+        </div>
+        <div>
+          <p className="text-lg leading-relaxed mb-4">{`“${excerpt}”`}</p>
+          {author && (
+            <Avatar
+              name={author.name}
+              profilePicture={author.profilePicture}
+            />
+          )}
+        </div>
       </div>
     </section>
   );
@@ -140,7 +134,7 @@ export default async function Home() {
     <>
       <Header frontPage={frontPage} />
       <main className="flex-1">
-        <ScrollAnimation animation="fade-in">
+        <ScrollAnimation animation="fade-in-up">
           <section>
             {/* Image section with purple bg on mobile */}
             <div className="bg-purple-50 lg:bg-transparent">
@@ -192,7 +186,7 @@ export default async function Home() {
 
         {/* Two-column section: Text left, Video right */}
         {(frontPage.leftTextColumn || frontPage.rightVideoColumn) && (
-          <ScrollAnimation animation="fade-in">
+          <ScrollAnimation animation="fade-in-up">
             <section
               className="py-14 mb-16"
               style={{ backgroundColor: "#eeeeec" }}
@@ -220,9 +214,9 @@ export default async function Home() {
           </ScrollAnimation>
         )}
 
-        <section className="mb-8">
-          <div className="container mx-auto px-5">
-            <ScrollAnimation animation="fade-in-up">
+        <ScrollAnimation animation="fade-in-up">
+          <section className="mb-8">
+            <div className="container mx-auto px-5">
               <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
                 <Link
                   href="/artikkelit/blogi"
@@ -231,27 +225,27 @@ export default async function Home() {
                   Blogi
                 </Link>
               </h2>
-            </ScrollAnimation>
 
-            {heroPost && (
-              <HeroPost
-                title={heroPost.title}
-                heroImage={heroPost.coverImage}
-                date={heroPost.date}
-                author={heroPost.author}
-                slug={heroPost.slug}
-                excerpt={heroPost.excerpt}
-              />
-            )}
-            {morePosts.length > 0 && <MoreStories morePosts={morePosts} />}
-          </div>
-        </section>
+              {heroPost && (
+                <HeroPost
+                  title={heroPost.title}
+                  heroImage={heroPost.coverImage}
+                  date={heroPost.date}
+                  author={heroPost.author}
+                  slug={heroPost.slug}
+                  excerpt={heroPost.excerpt}
+                />
+              )}
+              {morePosts.length > 0 && <MoreStories morePosts={morePosts} />}
+            </div>
+          </section>
+        </ScrollAnimation>
 
         {/* Recipes Section */}
         {featuredRecipes.length > 0 && (
-          <section className="mb-16 mt-16">
-            <div className="container mx-auto px-5">
-              <ScrollAnimation animation="fade-in-up">
+          <ScrollAnimation animation="fade-in-up">
+            <section className="mb-16 mt-16">
+              <div className="container mx-auto px-5">
                 <h2 className="mb-8 text-4xl md:text-5xl font-semibold tracking-tighter leading-tight">
                   <Link
                     href="/artikkelit/reseptit"
@@ -260,9 +254,7 @@ export default async function Home() {
                     Reseptit
                   </Link>
                 </h2>
-              </ScrollAnimation>
 
-              <ScrollAnimation animation="fade-in-up" delay={0.08}>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {featuredRecipes.map((recipe) => (
                     <RecipeCard
@@ -278,9 +270,9 @@ export default async function Home() {
                     />
                   ))}
                 </div>
-              </ScrollAnimation>
-            </div>
-          </section>
+              </div>
+            </section>
+          </ScrollAnimation>
         )}
       </main>
     </>

@@ -10,8 +10,10 @@ interface UseScrollAnimationOptions {
 
 export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
   const {
-    threshold = 0.1,
-    rootMargin = "0px 0px -40px 0px",
+    threshold = 0,
+    // Shrink the bottom of the root so reveal happens after the element
+    // has entered the viewport — animation stays visible while scrolling.
+    rootMargin = "0px 0px -80px 0px",
     triggerOnce = true,
   } = options;
 
@@ -34,9 +36,13 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
       setIsVisible(false);
     };
 
-    // Already in viewport on mount — reveal without waiting for observer
+    // Only auto-reveal on mount when clearly in the upper viewport (hero/header).
+    // Avoid revealing tall below-fold sections early.
     const rect = element.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
+    const clearlyInView =
+      rect.top < window.innerHeight * 0.75 && rect.bottom > 0 && rect.top >= 0;
+
+    if (clearlyInView) {
       reveal();
       if (triggerOnce) return;
     }
